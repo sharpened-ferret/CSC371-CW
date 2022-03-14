@@ -3,4 +3,4 @@ project(CSC371_CW)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(CSC371_CW src/main.cpp)
+add_executable(CSC371_CW src/main.cpp src/371pass.cpp src/category.cpp src/item.cpp src/wallet.cpp)

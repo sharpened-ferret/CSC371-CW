@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <cctype>
+#include <exception>
 #include <unordered_map>
 
 #include "371pass.h"
@@ -128,7 +130,18 @@ cxxopts::Options App::cxxoptsSetup() {
 //  App::Action action = parseActionArgument(args);
 App::Action App::parseActionArgument(cxxopts::ParseResult &args) {
   std::string input = args["action"].as<std::string>();
-  return Action::READ;
+  // Casts string to lowercase and compares the value
+  std::transform(input.begin(), input.end(), input.begin(), ::tolower);
+  if (input == "create") {
+    return Action::CREATE;
+  } else if (input == "read") {
+    return Action::READ;
+  } else if (input == "update") {
+    return Action::UPDATE;
+  } else if (input == "delete") {
+    return Action::DELETE;
+  }
+  throw std::invalid_argument("action");
 }
 
 // TODO Write a function, getJSON, that returns a std::string containing the
