@@ -33,6 +33,7 @@ public:
     bool deleteItem(std::string identifier);
 
     friend bool operator==(const Category& lhs, const Category& rhs);
+    friend void merge(Category& initial, Category& additional);
 };
 
 #endif // CATEGORY_H

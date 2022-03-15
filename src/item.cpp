@@ -126,8 +126,7 @@ bool operator==(const Item& lhs, const Item& rhs) {
 //  Item iObj{"itemIdent"};
 //  std::string s = iObj.str();
 
-// This function adds the entries of the second item into the first.
-//
+// This function adds the entries of the additional item into the initial item.
 void merge(Item& initial, Item& additional) {
     initial.entries.insert(additional.entries.begin(), additional.entries.end());
 }

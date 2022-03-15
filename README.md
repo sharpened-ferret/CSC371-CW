@@ -9,5 +9,5 @@ Added local testing to ensure casting to lowercase worked as expected.
 
 ## Additional Functions
 ### merge()
-A merge function was added to item, to facilitate merging the entry lists for the 'addItem' function in category.  
-This function takes pointers to two Item objects, and adds all the entries in the second Item into the entries property of the first item.
+A merge function was added to Item and Category, to facilitate merging the lists for the 'addItem' and 'addCategory' functions.  
+This function takes pointers to two objects, and adds all the list entries in the second object into the list property of the first item.

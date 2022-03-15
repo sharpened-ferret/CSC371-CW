@@ -155,3 +155,8 @@ bool operator==(const Category& lhs, const Category& rhs) {
 // Example:
 //  Category cObj{"categoryIdent"};
 //  std::string s = cObj.str();
+
+// This function adds the entries of the additional category into the initial category.
+void merge(Category& initial, Category& additional) {
+    initial.items.insert(additional.items.begin(), additional.items.end());
+}
