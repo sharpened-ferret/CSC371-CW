@@ -9,6 +9,8 @@
 
 #include "item.h"
 #include <string>
+#include <exception>
+#include <stdexcept>
 
 // TODO Write a constructor that takes one parameter, a string identifier
 //  and initialises the object and member data.
@@ -36,40 +38,59 @@ bool Item::empty() {
 //  Item iObj{"identIdent"};
 //  auto empty = iObj.empty();
 
-// TODO Write a function, setIdent, that takes one parameter, a string for a new
+// Write a function, setIdent, that takes one parameter, a string for a new
 //  Item identifier, and updates the member variable. It returns nothing.
-//
+void Item::setIdent(std::string ident) {
+    this->identifier = ident;
+}
 // Example:
 //  Item iObj{"identIdent"};
 //  iObj.setIdent("identIdent2");
 
-// TODO Write a function, getIdent, that returns the identifier for the Item.
-//
+// Write a function, getIdent, that returns the identifier for the Item.
+std::string Item::getIdent() {
+    return this->identifier;
+}
 // Example:
 //  Item iObj{"identIdent"};
 //  auto ident = iObj.getIdent();
 
-// TODO Write a function, addEntry, that takes two parameters, an entry
+// Write a function, addEntry, that takes two parameters, an entry
 //  key and value and returns true if the entry was inserted into the
 //  container or false if the entry already existed and was replaced.
-//
+bool Item::addEntry(std::string key, std::string value) {
+    const auto status = this->entries.insert({key, value});
+    return status.second;
+}
 // Example:
 //  Item iObj{"identIdent"};
 //  iObj.addEntry("key", "value");
 
-// TODO Write a function, getEntry, that takes one parameter, an entry
+// Write a function, getEntry, that takes one parameter, an entry
 //  key and returns it's value. If no entry exists, throw an appropriate
 //  exception.
-//
+std::string Item::getEntry(std::string key) {
+    if (this->entries.count(key) == 0) {
+        throw std::out_of_range("no value exists for key");
+    } else {
+        return this->entries.at(key);
+    }
+}
 // Example:
 //  Item iObj{"identIdent"};
 //  iObj.addEntry("key", "value");
 //  auto value = iObj.getEntry("key");
 
-// TODO Write a function, deleteEntry, that takes one parameter, an entry
+// Write a function, deleteEntry, that takes one parameter, an entry
 //  key, deletes it from the container, and returns true if the Item was
 //  deleted. If no entry exists, throw an appropriate exception.
-//
+bool Item::deleteEntry(std::string key) {
+    if (this->entries.count(key) == 0) {
+        throw std::out_of_range("no value exists for key");
+    } else {
+        return this->entries.erase(key);
+    }
+}
 // Example:
 //  Item iObj{"identIdent"};
 //  iObj.addEntry("key", "value");

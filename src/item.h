@@ -27,6 +27,11 @@ public:
     Item(std::string identifier);
     unsigned int size();
     bool empty();
+    void setIdent(std::string ident);
+    std::string getIdent();
+    bool addEntry(std::string key, std::string value);
+    std::string getEntry(std::string key);
+    bool deleteEntry(std::string key);
 };
 
 #endif // ITEM_H
