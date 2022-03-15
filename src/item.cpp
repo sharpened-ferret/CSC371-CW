@@ -11,10 +11,11 @@
 #include <string>
 #include <exception>
 #include <stdexcept>
+#include <utility>
 
 // TODO Write a constructor that takes one parameter, a string identifier
 //  and initialises the object and member data.
-Item::Item(std::string identifier): identifier(identifier) {}
+Item::Item(std::string identifier): identifier(std::move(identifier)) {}
 //
 // Example:
 //  Item iObj{"identIdent"};

@@ -9,10 +9,11 @@
 
 #include "category.h"
 #include <string>
+#include <utility>
 
 // Write a constructor that takes one parameter, a string identifier
 //  and initialises the object and member data.
-Category::Category(std::string identifier): identifier(identifier) {}
+Category::Category(std::string identifier): identifier(std::move(identifier)) {}
 // Example:
 //  Category c{"categoryIdent"};
 
