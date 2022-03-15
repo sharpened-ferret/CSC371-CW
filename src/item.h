@@ -16,8 +16,15 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-class Item {
+#include <string>
 
+class Item {
+private:
+    std::string identifier;
+public:
+    Item(std::string identifier);
+    unsigned int size();
+    bool empty();
 };
 
 #endif // ITEM_H

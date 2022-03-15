@@ -8,9 +8,11 @@
 // -----------------------------------------------------
 
 #include "item.h"
+#include <string>
 
 // TODO Write a constructor that takes one parameter, a string identifier
 //  and initialises the object and member data.
+Item::Item(std::string identifier): identifier(identifier) {}
 //
 // Example:
 //  Item iObj{"identIdent"};
@@ -18,13 +20,23 @@
 // TODO Write a function, size, that takes no parameters and returns an unsigned
 //  int of the number of entries in the Item contains.
 //
+unsigned int Item::size() {
+    // TODO return number of entries
+    return 0;
+}
 // Example:
 //  Item iObj{"identIdent"};
 //  auto size = iObj.size();
 
-// TODO Write a function, empty, that takes no parameters and returns true
+// Write a function, empty, that takes no parameters and returns true
 //  if the number of entries in the Item is zero, false otherwise.
-//
+bool Item::empty() {
+    if (this->size() == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
 // Example:
 //  Item iObj{"identIdent"};
 //  auto empty = iObj.empty();
