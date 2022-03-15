@@ -29,6 +29,7 @@ public:
     bool addCategory(Category category);
     Category& getCategory(std::string ident);
     bool deleteCategory(std::string ident);
+    void load(std::string filename);
 };
 
 #endif // WALLET_H

@@ -9,6 +9,7 @@
 
 #include "wallet.h"
 #include <stdexcept>
+#include <fstream>
 
 //  Write a Wallet constructor that takes no parameters and constructs an
 //  empty wallet.
@@ -110,7 +111,12 @@ bool Wallet::deleteCategory(std::string ident) {
 //  containing the filename for the database. Open the file, read the contents,
 //  and populates the container for this Wallet. If the file does open throw an
 //  appropriate exception (either std::runtime_error or a derived class).
-//
+void Wallet::load(std::string filename) {
+
+    std::ifstream database(filename);
+    
+    database.close();
+}
 // A note on clashes:
 //  If you encounter two categories with the same key, the categories should be
 //  merged (not replaced!). If you encounter two items with the same key in the
