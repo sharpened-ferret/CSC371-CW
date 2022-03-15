@@ -54,7 +54,7 @@ void Category::setIdent(std::string ident) {
 //  Category cObj{"categoryIdent"};
 //  cObj.setIdent("categoryIdent2");
 
-// TODO Write a function, newItem, that takes one parameter, an Item identifier,
+// Write a function, newItem, that takes one parameter, an Item identifier,
 //  (a string) and returns the Item object as a reference. If an object with the
 //  same identifier already exists, then the existing object should be returned.
 //  Throw a std::runtime_error if the Item object cannot be inserted into the
@@ -81,7 +81,8 @@ Item& Category::newItem(std::string identifier) {
 //  return false.
 bool Category::addItem(Item item) {
     if (this->items.count(item.getIdent()) == 0) {
-        this->items.insert({item.getIdent(), item});
+        const auto status = this->items.insert({item.getIdent(), item});
+        return status.second;
     } else {
         // TODO handle merge between existing item and added item
         Item existingCopy = this->items.at(item.getIdent());
@@ -93,7 +94,7 @@ bool Category::addItem(Item item) {
 //  Item iObj{"itemIdent"};
 //  cObj.addItem(iObj);
 
-// TODO Write a function, getItem, that takes one parameter, an Item
+// Write a function, getItem, that takes one parameter, an Item
 //  identifier (a string) and returns the Item as a reference. If no Item
 //  exists, throw an appropriate exception.
 Item& Category::getItem(std::string identifier) {
@@ -111,7 +112,7 @@ Item& Category::getItem(std::string identifier) {
 //  cObj.newItem("itemIdent");
 //  auto iObj = cObj.getItem("itemIdent");
 
-// TODO Write a function, deleteItem, that takes one parameter, an Item
+// Write a function, deleteItem, that takes one parameter, an Item
 //  identifier (a string), deletes it from the container, and returns true if
 //  the Item was deleted. If no Item exists, throw an appropriate exception.
 bool Category::deleteItem(std::string identifier) {
