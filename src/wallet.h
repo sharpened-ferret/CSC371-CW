@@ -28,6 +28,7 @@ public:
     Category& newCategory(std::string identifier);
     bool addCategory(Category category);
     Category& getCategory(std::string ident);
+    bool deleteCategory(std::string ident);
 };
 
 #endif // WALLET_H
