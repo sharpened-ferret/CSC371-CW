@@ -13,8 +13,17 @@
 #ifndef CATEGORY_H
 #define CATEGORY_H
 
-class Category {
+#include <string>
+#include <map>
 
+class Category {
+private:
+    std::string identifier;
+    std::map<std::string, std::string> items;
+public:
+    Category(std::string identifier);
+    unsigned int size();
+    bool empty();
 };
 
 #endif // CATEGORY_H

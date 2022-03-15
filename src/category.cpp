@@ -8,23 +8,28 @@
 // -----------------------------------------------------
 
 #include "category.h"
+#include <string>
 
-// TODO Write a constructor that takes one parameter, a string identifier
+// Write a constructor that takes one parameter, a string identifier
 //  and initialises the object and member data.
-//
+Category::Category(std::string identifier): identifier(identifier) {}
 // Example:
 //  Category c{"categoryIdent"};
 
-// TODO Write a function, size, that takes no parameters and returns an unsigned
+// Write a function, size, that takes no parameters and returns an unsigned
 //  int of the number of Items in the Category contains.
-//
+unsigned int Category::size() {
+    return this->items.size();
+}
 // Example:
 //  Category c{"categoryIdent"};
 //  auto size = c.size();
 
-// TODO Write a function, empty, that takes no parameters and returns true
+// Write a function, empty, that takes no parameters and returns true
 //  if the number of Items in the Category is zero, false otherwise.
-//
+bool Category::empty() {
+    return this->items.empty();
+}
 // Example:
 //  Category c{"categoryIdent"};
 //  auto empty = c.empty();
