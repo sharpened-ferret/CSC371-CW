@@ -55,12 +55,22 @@ Category& Wallet::newCategory(std::string identifier) {
 //  Wallet wObj{};
 //  wObj.newCategory("categoryIdent");
 
-// TODO Write a function, addCategory, that takes one parameter, a Category
+//  Write a function, addCategory, that takes one parameter, a Category
 //  object, and returns true if the object was successfully inserted. If an
 //  object with the same identifier already exists, then the contents should be
 //  merged and then return false. Throw a std::runtime_error if the Category
 //  object cannot be inserted into the container for whatever reason.
-//
+bool Wallet::addCategory(Category category) {
+    if (this->categories.count(category.getIdent()) == 0) {
+        const auto status = this->categories.insert({category.getIdent(), category});
+        return status.second;
+    } else {
+        // Gets the conflicting item and calls to a helper function in item to merge the Item entries
+        Category existingCopy = this->categories.at(category.getIdent());
+        merge(existingCopy, category);
+        return false;
+    }
+}
 // Example:
 //  Wallet wObj{};
 //  Category cObj{"categoryIdent"};
