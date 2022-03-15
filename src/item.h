@@ -17,10 +17,12 @@
 #define ITEM_H
 
 #include <string>
+#include <map>
 
 class Item {
 private:
     std::string identifier;
+    std::map<std::string, std::string> entries;
 public:
     Item(std::string identifier);
     unsigned int size();

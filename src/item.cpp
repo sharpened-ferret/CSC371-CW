@@ -17,12 +17,11 @@ Item::Item(std::string identifier): identifier(identifier) {}
 // Example:
 //  Item iObj{"identIdent"};
 
-// TODO Write a function, size, that takes no parameters and returns an unsigned
+// Write a function, size, that takes no parameters and returns an unsigned
 //  int of the number of entries in the Item contains.
 //
 unsigned int Item::size() {
-    // TODO return number of entries
-    return 0;
+    return this->entries.size();
 }
 // Example:
 //  Item iObj{"identIdent"};
@@ -31,11 +30,7 @@ unsigned int Item::size() {
 // Write a function, empty, that takes no parameters and returns true
 //  if the number of entries in the Item is zero, false otherwise.
 bool Item::empty() {
-    if (this->size() == 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return this->entries.empty();
 }
 // Example:
 //  Item iObj{"identIdent"};
