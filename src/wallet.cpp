@@ -9,22 +9,26 @@
 
 #include "wallet.h"
 
-// TODO Write a Wallet constructor that takes no parameters and constructs an
+//  Write a Wallet constructor that takes no parameters and constructs an
 //  empty wallet.
-//
+Wallet::Wallet() = default;
 // Example:
 //  Wallet wObj{};
 
-// TODO Write a function, size, that takes no parameters and returns an unsigned
+//  Write a function, size, that takes no parameters and returns an unsigned
 //  int of the number of categories in the Wallet contains.
-//
+unsigned int Wallet::size() {
+    return this->categories.size();
+}
 // Example:
 //  Wallet wObj{};
 //  auto size = wObj.size();
 
-// TODO Write a function, empty, that takes no parameters and returns true
+//  Write a function, empty, that takes no parameters and returns true
 //  if the number of categories in the Wallet is zero, false otherwise.
-//
+bool Wallet::empty() {
+    return this->categories.empty();
+}
 // Example:
 //  Wallet wwObj{};
 //  auto isEmpty = wObj.empty();

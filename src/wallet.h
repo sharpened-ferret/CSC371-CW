@@ -14,8 +14,17 @@
 #ifndef WALLET_H
 #define WALLET_H
 
+#include <map>
+#include <string>
+#include "category.h"
+
 class Wallet {
-  
+private:
+    std::map<std::string, Category> categories;
+public:
+    Wallet();
+    unsigned int size();
+    bool empty();
 };
 
 #endif // WALLET_H
