@@ -41,7 +41,7 @@ bool Item::empty() {
 // Write a function, setIdent, that takes one parameter, a string for a new
 //  Item identifier, and updates the member variable. It returns nothing.
 void Item::setIdent(std::string ident) {
-    this->identifier = ident;
+    this->identifier = std::move(ident);
 }
 // Example:
 //  Item iObj{"identIdent"};

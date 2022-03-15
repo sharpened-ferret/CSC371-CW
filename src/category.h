@@ -24,6 +24,8 @@ public:
     Category(std::string identifier);
     unsigned int size();
     bool empty();
+    std::string getIdent();
+    void setIdent(std::string ident);
 };
 
 #endif // CATEGORY_H

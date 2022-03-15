@@ -34,16 +34,20 @@ bool Category::empty() {
 //  Category c{"categoryIdent"};
 //  auto empty = c.empty();
 
-// TODO Write a function, getIdent, that returns the identifier for the
+// Write a function, getIdent, that returns the identifier for the
 //  Category.
-//
+std::string Category::getIdent() {
+    return this->identifier;
+}
 // Example:
 //  Category cObj{"categoryIdent"};
 //  auto ident = cObj.getIdent();
 
-// TODO Write a function, setIdent, that takes one parameter, a string for a new
+// Write a function, setIdent, that takes one parameter, a string for a new
 //  Category identifier, and updates the member variable. It returns nothing.
-//
+void Category::setIdent(std::string ident) {
+    this->identifier = std::move(ident);
+}
 // Example:
 //  Category cObj{"categoryIdent"};
 //  cObj.setIdent("categoryIdent2");
