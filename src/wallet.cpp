@@ -79,7 +79,13 @@ bool Wallet::addCategory(Category category) {
 // TODO Write a function, getCategory, that takes one parameter, a Category
 //  identifier and returns the Category. If no Category exists, throw an
 //  appropriate exception.
-//
+Category& Wallet::getCategory(std::string ident) {
+    if (this->categories.count(ident) == 0) {
+        throw std::out_of_range("no Category exists with identifier");
+    } else {
+        return this->categories.at(ident);
+    }
+}
 // Example:
 //  Wallet wObj{};
 //  wObj.newCategory("categoryIdent");
