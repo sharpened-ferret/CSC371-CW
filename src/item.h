@@ -34,6 +34,7 @@ public:
     bool deleteEntry(std::string key);
 
     friend bool operator==(const Item& rhs, const Item& lhs);
+    friend void merge(Item& first, Item& second);
 };
 
 #endif // ITEM_H

@@ -12,6 +12,7 @@
 #include <exception>
 #include <stdexcept>
 #include <utility>
+#include <map>
 
 // TODO Write a constructor that takes one parameter, a string identifier
 //  and initialises the object and member data.
@@ -124,3 +125,9 @@ bool operator==(const Item& lhs, const Item& rhs) {
 // Example:
 //  Item iObj{"itemIdent"};
 //  std::string s = iObj.str();
+
+// This function adds the entries of the second item into the first.
+//
+void merge(Item& initial, Item& additional) {
+    initial.entries.insert(additional.entries.begin(), additional.entries.end());
+}

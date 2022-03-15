@@ -75,7 +75,7 @@ Item& Category::newItem(std::string identifier) {
 //  Category cObj{"categoryIdent"};
 //  cObj.newItem("itemIdent");
 
-// TODO Write a function, addItem, that takes one parameter, an Item object,
+//  Write a function, addItem, that takes one parameter, an Item object,
 //  and returns true if the object was successfully inserted. If an object with
 //  the same identifier already exists, then the contents should be merged and
 //  return false.
@@ -84,9 +84,10 @@ bool Category::addItem(Item item) {
         const auto status = this->items.insert({item.getIdent(), item});
         return status.second;
     } else {
-        // TODO handle merge between existing item and added item
+        // Gets the conflicting item and calls to a helper function in item to merge the Item entries
         Item existingCopy = this->items.at(item.getIdent());
-        throw std::invalid_argument("not yet implemented - TODO");
+        merge(existingCopy, item);
+        return false;
     }
 }
 // Example:
