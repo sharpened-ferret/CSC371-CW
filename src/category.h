@@ -31,6 +31,8 @@ public:
     bool addItem(Item item);
     Item& getItem(std::string identifier);
     bool deleteItem(std::string identifier);
+
+    friend bool operator==(const Category& lhs, const Category& rhs);
 };
 
 #endif // CATEGORY_H

@@ -131,7 +131,14 @@ bool Category::deleteItem(std::string identifier) {
 // TODO Write an == operator overload for the Category class, such that two
 //  Category objects are equal only if they have the same identifier and same
 //  Items.
-//
+bool operator==(const Category& lhs, const Category& rhs) {
+    if (lhs.identifier == rhs.identifier) {
+        if (lhs.items == rhs.items) {
+            return true;
+        }
+    }
+    return false;
+}
 // Example:
 //  Category cObj1{"categoryIdent1"};
 //  cObj1.newItem("itemIdent");
