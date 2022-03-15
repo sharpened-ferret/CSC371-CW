@@ -10,6 +10,7 @@
 #include "category.h"
 #include <string>
 #include <utility>
+#include <stdexcept>
 
 // Write a constructor that takes one parameter, a string identifier
 //  and initialises the object and member data.
@@ -58,7 +59,18 @@ void Category::setIdent(std::string ident) {
 //  same identifier already exists, then the existing object should be returned.
 //  Throw a std::runtime_error if the Item object cannot be inserted into the
 //  container for whatever reason.
-//
+Item& Category::newItem(std::string identifier) {
+    if (this->items.count(identifier) == 0) {
+        const auto status = this->items.insert({identifier, Item(identifier)});
+        if (status.second) {
+            return this->items.at(identifier);
+        } else {
+            throw std::runtime_error("add item failed");
+        }
+    } else {
+        return this->items.at(identifier);
+    }
+}
 // Example:
 //  Category cObj{"categoryIdent"};
 //  cObj.newItem("itemIdent");
@@ -67,7 +79,15 @@ void Category::setIdent(std::string ident) {
 //  and returns true if the object was successfully inserted. If an object with
 //  the same identifier already exists, then the contents should be merged and
 //  return false.
-//
+bool Category::addItem(Item item) {
+    if (this->items.count(item.getIdent()) == 0) {
+        this->items.insert({item.getIdent(), item});
+    } else {
+        // TODO handle merge between existing item and added item
+        Item existingCopy = this->items.at(item.getIdent());
+        throw std::invalid_argument("not yet implemented - TODO");
+    }
+}
 // Example:
 //  Category cObj{"categoryIdent"};
 //  Item iObj{"itemIdent"};
@@ -76,7 +96,13 @@ void Category::setIdent(std::string ident) {
 // TODO Write a function, getItem, that takes one parameter, an Item
 //  identifier (a string) and returns the Item as a reference. If no Item
 //  exists, throw an appropriate exception.
-//
+Item& Category::getItem(std::string identifier) {
+    if (this->items.count(identifier) == 0) {
+        throw std::out_of_range("no item exists with identifier");
+    } else {
+        return items.at(identifier);
+    }
+}
 // Hint:
 //  See the test scripts for the exception expected.
 //
@@ -88,7 +114,13 @@ void Category::setIdent(std::string ident) {
 // TODO Write a function, deleteItem, that takes one parameter, an Item
 //  identifier (a string), deletes it from the container, and returns true if
 //  the Item was deleted. If no Item exists, throw an appropriate exception.
-//
+bool Category::deleteItem(std::string identifier) {
+    if (this->items.count(identifier) == 0) {
+        throw std::out_of_range("item to delete does not exist");
+    } else {
+        return this->items.erase(identifier);
+    }
+}
 // Example:
 //  Category cObj{"categoryIdent"};
 //  cObj.newItem("itemIdent");

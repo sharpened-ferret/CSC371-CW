@@ -15,17 +15,22 @@
 
 #include <string>
 #include <map>
+#include "item.h"
 
 class Category {
 private:
     std::string identifier;
-    std::map<std::string, std::string> items;
+    std::map<std::string, Item> items;
 public:
     Category(std::string identifier);
     unsigned int size();
     bool empty();
     std::string getIdent();
     void setIdent(std::string ident);
+    Item& newItem(std::string identifier);
+    bool addItem(Item item);
+    Item& getItem(std::string identifier);
+    bool deleteItem(std::string identifier);
 };
 
 #endif // CATEGORY_H
