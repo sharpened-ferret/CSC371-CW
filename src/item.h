@@ -32,6 +32,8 @@ public:
     bool addEntry(std::string key, std::string value);
     std::string getEntry(std::string key);
     bool deleteEntry(std::string key);
+
+    friend bool operator==(const Item& rhs, const Item& lhs);
 };
 
 #endif // ITEM_H

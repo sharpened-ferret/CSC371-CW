@@ -100,7 +100,14 @@ bool Item::deleteEntry(std::string key) {
 // TODO Write an == operator overload for the Item class, such that two
 //  Item objects are equal only if they have the same identifier and same
 //  entries.
-//
+bool operator==(const Item& lhs, const Item& rhs) {
+    if (lhs.identifier == rhs.identifier) {
+        if (lhs.entries == rhs.entries) {
+            return true;
+        }
+    }
+    return false;
+}
 // Example:
 //  Item iObj1{"identIdent"};
 //  iObj1.addEntry("key", "value");
