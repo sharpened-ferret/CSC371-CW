@@ -97,7 +97,7 @@ bool Item::deleteEntry(std::string key) {
 //  iObj.addEntry("key", "value");
 //  iObj.deleteEntry("key");
 
-// TODO Write an == operator overload for the Item class, such that two
+// Write an == operator overload for the Item class, such that two
 //  Item objects are equal only if they have the same identifier and same
 //  entries.
 bool operator==(const Item& lhs, const Item& rhs) {
