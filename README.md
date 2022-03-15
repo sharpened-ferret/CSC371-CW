@@ -5,3 +5,8 @@ You should use this README to document things you did that you thing are clever 
 ## Testing Tweaks
 ### Test 1:
 Test 1 did not check case sensitivity for arguments. Added testing to ensure casting to lowercase worked as expected. 
+
+## Additional Functions
+### merge()
+A merge function was added to item as a friend, to facilitate merging entry lists for 'addItem' in category.  
+This function takes pointers to two Item objects, and adds all the entries in the second Item into the entries property of the first item.
