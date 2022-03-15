@@ -8,6 +8,7 @@
 // -----------------------------------------------------
 
 #include "wallet.h"
+#include <stdexcept>
 
 //  Write a Wallet constructor that takes no parameters and constructs an
 //  empty wallet.
@@ -33,12 +34,23 @@ bool Wallet::empty() {
 //  Wallet wwObj{};
 //  auto isEmpty = wObj.empty();
 
-// TODO Write a function, newCategory, that takes one parameter, a category
+//  Write a function, newCategory, that takes one parameter, a category
 //  identifier, and returns the Category object as a reference. If an object
 //  with the same identifier already exists, then the existing object should be
 //  returned. Throw a std::runtime_error if the Category object cannot be
 //  inserted into the container.
-//
+Category& Wallet::newCategory(std::string identifier) {
+    if (this->categories.count(identifier) == 0) {
+        const auto status = this->categories.insert({identifier, Category(identifier)});
+        if (status.second) {
+            return this->categories.at(identifier);
+        } else {
+            throw std::runtime_error("new category failed");
+        }
+    } else {
+        return this->categories.at(identifier);
+    }
+}
 // Example:
 //  Wallet wObj{};
 //  wObj.newCategory("categoryIdent");

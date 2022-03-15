@@ -25,6 +25,7 @@ public:
     Wallet();
     unsigned int size();
     bool empty();
+    Category& newCategory(std::string identifier);
 };
 
 #endif // WALLET_H

@@ -65,7 +65,7 @@ Item& Category::newItem(std::string identifier) {
         if (status.second) {
             return this->items.at(identifier);
         } else {
-            throw std::runtime_error("add item failed");
+            throw std::runtime_error("new item failed");
         }
     } else {
         return this->items.at(identifier);
