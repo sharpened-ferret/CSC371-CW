@@ -60,7 +60,7 @@ int App::run(int argc, char *argv[]) {
     std::string activeCategory;
     std::string activeItem;
     std::string activeEntry;
-
+    //TODO handle exceptions and close program with error msg.
     if (args.count("category")) {
         categorySelected = true;
         activeCategory = args["category"].as<std::string>();
@@ -82,7 +82,33 @@ int App::run(int argc, char *argv[]) {
 
   switch (a) {
   case Action::CREATE:
-    throw std::runtime_error("create not implemented");
+//    throw std::runtime_error("create not implemented");
+    // TODO rework order to improve efficiency
+    if (categorySelected) {
+        if (itemSelected) {
+            if (entrySelected) {
+                Category * currCategory = &wObj.newCategory(activeCategory);
+                Item * currItem  = &currCategory->newItem(activeItem);
+                std::stringstream entryParams(activeEntry);
+                std::string seg;
+                std::vector<std::string> segList;
+
+                while(std::getline(entryParams, seg, ',')) {
+                    segList.push_back(seg);
+                }
+                //TODO this can error with some inputs, add error handling
+                currItem->addEntry(segList[0], segList[1]);
+            } else {
+                Category * currCategory = &wObj.newCategory(activeCategory);
+                currCategory->newItem(activeItem);
+            }
+        } else {
+            wObj.newCategory(activeCategory);
+        }
+    } else {
+        std::cerr << "Error: missing category, item or entry argument(s)." << std::endl;
+    }
+    wObj.save(db);
     break;
 
   case Action::READ:
