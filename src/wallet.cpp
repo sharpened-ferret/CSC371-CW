@@ -134,7 +134,8 @@ void Wallet::load(std::string filename) {
             Item * currItem = &currCategory->getItem(item.key());
             auto entries = item.value();
             for (auto entry = entries.begin(); entry != entries.end(); ++entry) {
-                currItem->addEntry(entry.key(), to_string(entry.value()));
+                std::string entryValue = entry.value();
+                currItem->addEntry(entry.key(), entryValue);
             }
         }
     }
