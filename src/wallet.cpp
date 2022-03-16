@@ -94,7 +94,7 @@ Category& Wallet::getCategory(std::string ident) {
 //  wObj.newCategory("categoryIdent");
 //  auto cObj = wObj.getCategory("categoryIdent");
 
-// TODO Write a function, deleteCategory, that takes one parameter, a Category
+//  Write a function, deleteCategory, that takes one parameter, a Category
 //  identifier, and deletes it from the container, and returns true if the
 //  Category was deleted. If no Category exists, throw an appropriate exception.
 bool Wallet::deleteCategory(std::string ident) {
