@@ -58,7 +58,7 @@ int App::run(int argc, char *argv[]) {
     break;
 
   case Action::READ:
-//    throw std::runtime_error("read not implemented");
+    // TODO needs selectors for just reading category, item, entry, etc.
     std::cout << wObj.str() << std::endl;
     break;
 
