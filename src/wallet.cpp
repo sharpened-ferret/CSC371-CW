@@ -109,11 +109,12 @@ bool Wallet::deleteCategory(std::string ident) {
 //  wObj.newCategory("categoryIdent");
 //  wObj.deleteCategory("categoryIdent");
 
-// TODO Write a function, load, that takes one parameter, a std::string,
+//  Write a function, load, that takes one parameter, a std::string,
 //  containing the filename for the database. Open the file, read the contents,
 //  and populates the container for this Wallet. If the file does open throw an
 //  appropriate exception (either std::runtime_error or a derived class).
 void Wallet::load(std::string filename) {
+    //TODO clean this code
     std::string line;
     std::stringstream buffer;
     std::ifstream database(filename);
