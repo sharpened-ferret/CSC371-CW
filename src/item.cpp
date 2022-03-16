@@ -118,11 +118,15 @@ bool operator==(const Item& lhs, const Item& rhs) {
 //    ...
 //  }
 
-// TODO Write a function, str, that takes no parameters and returns a
+//  Write a function, str, that takes no parameters and returns a
 //  std::string of the JSON representation of the data in the Item.
 //
 // See the coursework specification for how this JSON should look.
-//
+std::string Item::str() {
+    nlohmann::json jString;
+    to_json(jString, *this);
+    return to_string(jString);
+}
 // Example:
 //  Item iObj{"itemIdent"};
 //  std::string s = iObj.str();

@@ -147,9 +147,13 @@ bool operator==(const Category& lhs, const Category& rhs) {
 //    ...
 //  }
 
-// TODO Write a function, str, that takes no parameters and returns a
+//  Write a function, str, that takes no parameters and returns a
 //  std::string of the JSON representation of the data in the Category.
-//
+std::string Category::str() {
+    nlohmann::json jString;
+    to_json(jString, *this);
+    return to_string(jString);
+}
 // See the coursework specification for how this JSON should look.
 //
 // Example:

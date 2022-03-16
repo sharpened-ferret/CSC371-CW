@@ -228,9 +228,12 @@ bool operator==(Wallet& lhs, Wallet& rhs) {
 //    ...
 //  }
 
-// TODO Write a function, str, that takes no parameters and returns a
+//  Write a function, str, that takes no parameters and returns a
 //  std::string of the JSON representation of the data in the Wallet.
-//
+std::string Wallet::str() {
+    nlohmann::json jString(categories);
+    return nlohmann::to_string(jString);
+}
 // Hint:
 //  See the coursework specification for how this JSON should look.
 //

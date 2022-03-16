@@ -31,6 +31,7 @@ public:
     bool deleteCategory(std::string ident);
     void load(std::string filename);
     void save(std::string filename);
+    std::string str();
 
     friend bool operator==(Wallet& lhs, Wallet& rhs);
 };

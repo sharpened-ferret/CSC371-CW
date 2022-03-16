@@ -33,6 +33,7 @@ public:
     bool addEntry(std::string key, std::string value);
     std::string getEntry(std::string key);
     bool deleteEntry(std::string key);
+    std::string str();
 
     friend bool operator==(const Item& rhs, const Item& lhs);
     friend void merge(Item& first, Item& second);

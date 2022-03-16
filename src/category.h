@@ -31,6 +31,7 @@ public:
     bool addItem(Item item);
     Item& getItem(std::string identifier);
     bool deleteItem(std::string identifier);
+    std::string str();
 
     friend bool operator==(const Category& lhs, const Category& rhs);
     friend void merge(Category& initial, Category& additional);
