@@ -213,7 +213,7 @@ App::Action App::parseActionArgument(cxxopts::ParseResult &args) {
   throw std::invalid_argument("action");
 }
 
-// TODO Write a function, getJSON, that returns a std::string containing the
+//  Write a function, getJSON, that returns a std::string containing the
 //  JSON representation of a Wallet object.
 //
 // This function has been implemented for you, but you may wish to adjust it.
@@ -230,7 +230,7 @@ std::string App::getJSON(Wallet &wObj) {
    return wObj.str();
 }
 
-// TODO Write a function, getJSON, that returns a std::string containing the
+//  Write a function, getJSON, that returns a std::string containing the
 //  JSON representation of a specific Category in a Wallet object.
 //
 // This function has been implemented for you, but you may wish to adjust it.
@@ -249,12 +249,12 @@ std::string App::getJSON(Wallet &wObj, const std::string &c) {
       auto cObj = wObj.getCategory(c);
       return cObj.str();
   } catch (const std::out_of_range& ex) {
-      std::cerr << "Error: invalid category argument(s)." << std::endl;
+      std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
       std::exit(EXIT_FAILURE);
   }
 }
 
-// TODO Write a function, getJSON, that returns a std::string containing the
+//  Write a function, getJSON, that returns a std::string containing the
 //  JSON representation of a specific Item in a Wallet object.
 //
 // This function has been implemented for you, but you may wish to adjust it.
@@ -274,12 +274,12 @@ std::string App::getJSON(Wallet &wObj, const std::string &c,
       Item iObj = cObj.getItem(i);
       return iObj.str();
   } catch (const std::out_of_range& ex) {
-      std::cerr << "Error: invalid category argument(s)." << std::endl;
+      std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
       std::exit(EXIT_FAILURE);
   }
 }
 
-// TODO Write a function, getJSON, that returns a std::string containing the
+//  Write a function, getJSON, that returns a std::string containing the
 //  JSON representation of a specific Entry in a Wallet object.
 //
 // This function has been implemented for you, but you may wish to adjust it.
@@ -295,13 +295,12 @@ std::string App::getJSON(Wallet &wObj, const std::string &c,
 //  std::cout << getJSON(wObj, c, i, e);
 std::string App::getJSON(Wallet &wObj, const std::string &c,
                          const std::string &i, const std::string &e) {
-    //TODO these need changing to accurately report issues with Item or Entry args
     try {
         auto cObj = wObj.getCategory(c);
         auto iObj = cObj.getItem(i);
         return iObj.getEntry(e);
     } catch (const std::out_of_range& ex) {
-        std::cerr << "Error: invalid category argument(s)." << std::endl;
+        std::cerr << "Error: invalid " << ex.what() << "argument(s)." << std::endl;
         std::exit(EXIT_FAILURE);
     }
 }

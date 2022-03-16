@@ -100,7 +100,7 @@ bool Category::addItem(Item item) {
 //  exists, throw an appropriate exception.
 Item& Category::getItem(std::string identifier) {
     if (this->items.count(identifier) == 0) {
-        throw std::out_of_range("no item exists with identifier");
+        throw std::out_of_range("item");
     } else {
         return items.at(identifier);
     }
@@ -118,7 +118,7 @@ Item& Category::getItem(std::string identifier) {
 //  the Item was deleted. If no Item exists, throw an appropriate exception.
 bool Category::deleteItem(std::string identifier) {
     if (this->items.count(identifier) == 0) {
-        throw std::out_of_range("item to delete does not exist");
+        throw std::out_of_range("item");
     } else {
         return this->items.erase(identifier);
     }

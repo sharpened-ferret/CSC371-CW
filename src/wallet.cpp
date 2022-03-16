@@ -85,7 +85,7 @@ bool Wallet::addCategory(Category category) {
 //  appropriate exception.
 Category& Wallet::getCategory(std::string ident) {
     if (this->categories.count(ident) == 0) {
-        throw std::out_of_range("no Category exists with identifier");
+        throw std::out_of_range("category");
     } else {
         return this->categories.at(ident);
     }
@@ -100,7 +100,7 @@ Category& Wallet::getCategory(std::string ident) {
 //  Category was deleted. If no Category exists, throw an appropriate exception.
 bool Wallet::deleteCategory(std::string ident) {
     if (this->categories.count(ident) == 0) {
-        throw std::out_of_range("no Category exists with identifier");
+        throw std::out_of_range("category");
     } else {
         return this->categories.erase(ident);
     }

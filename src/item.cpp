@@ -73,7 +73,7 @@ bool Item::addEntry(std::string key, std::string value) {
 //  exception.
 std::string Item::getEntry(std::string key) {
     if (this->entries.count(key) == 0) {
-        throw std::out_of_range("no value exists for key");
+        throw std::out_of_range("entry");
     } else {
         return this->entries.at(key);
     }
@@ -88,7 +88,7 @@ std::string Item::getEntry(std::string key) {
 //  deleted. If no entry exists, throw an appropriate exception.
 bool Item::deleteEntry(std::string key) {
     if (this->entries.count(key) == 0) {
-        throw std::out_of_range("no value exists for key");
+        throw std::out_of_range("entry");
     } else {
         return this->entries.erase(key);
     }
