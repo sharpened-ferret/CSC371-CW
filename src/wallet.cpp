@@ -203,7 +203,7 @@ void Wallet::load(std::string filename) {
 void Wallet::save(std::string filename) {
     nlohmann::json jSave(categories);
     std::ofstream out(filename);
-    out << std::setw(4) << jSave << std::endl;
+    out << std::setw(0) << jSave << std::endl;
 }
 // Example:
 //  Wallet wObj{};
