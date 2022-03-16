@@ -34,6 +34,7 @@ public:
 
     friend bool operator==(const Category& lhs, const Category& rhs);
     friend void merge(Category& initial, Category& additional);
+    friend void to_json(nlohmann::json& j, const Category& category);
 };
 
 #endif // CATEGORY_H

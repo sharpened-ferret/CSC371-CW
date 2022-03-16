@@ -13,6 +13,7 @@
 #include <stdexcept>
 #include <utility>
 #include <map>
+#include "lib_json.hpp"
 
 // TODO Write a constructor that takes one parameter, a string identifier
 //  and initialises the object and member data.
@@ -129,4 +130,8 @@ bool operator==(const Item& lhs, const Item& rhs) {
 // This function adds the entries of the additional item into the initial item.
 void merge(Item& initial, Item& additional) {
     initial.entries.insert(additional.entries.begin(), additional.entries.end());
+}
+
+void to_json(nlohmann::json& j, const Item& item) {
+    j = nlohmann::json(item.entries);
 }

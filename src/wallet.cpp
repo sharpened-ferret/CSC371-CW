@@ -11,6 +11,7 @@
 #include <stdexcept>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 #include "lib_json.hpp"
 
 //  Write a Wallet constructor that takes no parameters and constructs an
@@ -114,7 +115,7 @@ bool Wallet::deleteCategory(std::string ident) {
 //  and populates the container for this Wallet. If the file does open throw an
 //  appropriate exception (either std::runtime_error or a derived class).
 void Wallet::load(std::string filename) {
-    //TODO clean this code
+    //TODO clean this code + add exception throwing
     std::string line;
     std::stringstream buffer;
     std::ifstream database(filename);
@@ -199,7 +200,11 @@ void Wallet::load(std::string filename) {
 // TODO Write a function ,save, that takes one parameter, the path of the file
 //  to write the database to. The function should serialise the Wallet object
 //  as JSON.
-//
+void Wallet::save(std::string filename) {
+    nlohmann::json jSave(categories);
+    std::ofstream out(filename);
+    out << std::setw(4) << jSave << std::endl;
+}
 // Example:
 //  Wallet wObj{};
 //  wObj.load("database.json");
@@ -208,7 +213,13 @@ void Wallet::load(std::string filename) {
 
 // TODO Write an == operator overload for the Wallet class, such that two
 //  Wallet objects are equal only if they have the exact same data.
-//
+bool operator==(Wallet& lhs, Wallet& rhs) {
+    if (lhs.categories == rhs.categories) {
+        return true;
+    } else {
+        return false;
+    }
+}
 // Example:
 //  Wallet wObj1{};
 //  Wallet wObj2{};

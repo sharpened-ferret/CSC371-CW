@@ -160,3 +160,7 @@ bool operator==(const Category& lhs, const Category& rhs) {
 void merge(Category& initial, Category& additional) {
     initial.items.insert(additional.items.begin(), additional.items.end());
 }
+
+void to_json(nlohmann::json& j, const Category& category) {
+    j = nlohmann::json(category.items);
+}

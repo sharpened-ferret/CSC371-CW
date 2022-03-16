@@ -18,6 +18,7 @@
 
 #include <string>
 #include <map>
+#include "lib_json.hpp"
 
 class Item {
 private:
@@ -35,6 +36,7 @@ public:
 
     friend bool operator==(const Item& rhs, const Item& lhs);
     friend void merge(Item& first, Item& second);
+    friend void to_json(nlohmann::json& j, const Item& item);
 };
 
 #endif // ITEM_H

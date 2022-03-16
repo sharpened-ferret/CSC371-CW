@@ -30,6 +30,9 @@ public:
     Category& getCategory(std::string ident);
     bool deleteCategory(std::string ident);
     void load(std::string filename);
+    void save(std::string filename);
+
+    friend bool operator==(Wallet& lhs, Wallet& rhs);
 };
 
 #endif // WALLET_H
