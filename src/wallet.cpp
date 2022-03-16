@@ -127,10 +127,10 @@ void Wallet::load(std::string filename) {
 
     for (auto curr = jsonObject.begin(); curr != jsonObject.end(); ++curr) {
         this->addCategory(Category(curr.key()));
-        Category currCategory = this->getCategory(curr.key());
+        Category * currCategory = &this->getCategory(curr.key());
         auto items = curr.value();
         for (auto item = items.begin(); item != items.end(); ++item) {
-            currCategory.addItem(item.key());
+            currCategory->addItem(item.key());
         }
     }
 }
