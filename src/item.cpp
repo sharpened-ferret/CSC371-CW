@@ -9,13 +9,12 @@
 
 #include "item.h"
 #include <string>
-#include <exception>
 #include <stdexcept>
 #include <utility>
 #include <map>
 #include "lib_json.hpp"
 
-// TODO Write a constructor that takes one parameter, a string identifier
+//  Write a constructor that takes one parameter, a string identifier
 //  and initialises the object and member data.
 Item::Item(std::string identifier): identifier(std::move(identifier)) {}
 //
