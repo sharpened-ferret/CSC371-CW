@@ -112,7 +112,6 @@ int App::run(int argc, char *argv[]) {
     break;
 
   case Action::READ:
-    // TODO needs selectors for just reading category, item, entry, etc.
     if (categorySelected) {
         if (itemSelected) {
             if (entrySelected) {
