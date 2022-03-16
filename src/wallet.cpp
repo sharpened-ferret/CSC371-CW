@@ -197,10 +197,11 @@ void Wallet::load(std::string filename) {
 //  Wallet wObj{};
 //  wObj.load("database.json");
 
-// TODO Write a function ,save, that takes one parameter, the path of the file
+//  Write a function ,save, that takes one parameter, the path of the file
 //  to write the database to. The function should serialise the Wallet object
 //  as JSON.
 void Wallet::save(std::string filename) {
+    // TODO think about throwing exceptions on write?
     nlohmann::json jSave(categories);
     std::ofstream out(filename);
     out << std::setw(0) << jSave << std::endl;
@@ -211,7 +212,7 @@ void Wallet::save(std::string filename) {
 //  ...
 //  wObj.save("database.json");
 
-// TODO Write an == operator overload for the Wallet class, such that two
+//  Write an == operator overload for the Wallet class, such that two
 //  Wallet objects are equal only if they have the exact same data.
 bool operator==(Wallet& lhs, Wallet& rhs) {
     if (lhs.categories == rhs.categories) {
