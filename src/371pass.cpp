@@ -72,12 +72,12 @@ int App::run(int argc, char *argv[]) {
                 activeEntry = args["entry"].as<std::string>();
             }
         } else if (args.count("entry")) {
-            std::cerr << "Error: missing item arguments()." << std::endl;
-            throw std::invalid_argument("no item provided");
+            std::cerr << "Error: missing item argument(s)." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
     } else if (args.count("item") or args.count("entry")) {
-        std::cerr << "Error: missing category arguments()." << std::endl;
-        throw std::invalid_argument("no category provided");
+        std::cerr << "Error: missing category argument(s)." << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 
   switch (a) {
@@ -107,6 +107,7 @@ int App::run(int argc, char *argv[]) {
         }
     } else {
         std::cerr << "Error: missing category, item or entry argument(s)." << std::endl;
+        std::exit(EXIT_FAILURE);
     }
     wObj.save(db);
     break;
@@ -244,8 +245,13 @@ std::string App::getJSON(Wallet &wObj) {
 std::string App::getJSON(Wallet &wObj, const std::string &c) {
 //  return "{}";
   // Only uncomment this once you have implemented the functions used!
-   auto cObj = wObj.getCategory(c);
-   return cObj.str();
+  try {
+      auto cObj = wObj.getCategory(c);
+      return cObj.str();
+  } catch (const std::out_of_range& ex) {
+      std::cerr << "Error: invalid category argument(s)." << std::endl;
+      std::exit(EXIT_FAILURE);
+  }
 }
 
 // TODO Write a function, getJSON, that returns a std::string containing the
@@ -263,11 +269,14 @@ std::string App::getJSON(Wallet &wObj, const std::string &c) {
 //  std::cout << getJSON(wObj, c, i);
 std::string App::getJSON(Wallet &wObj, const std::string &c,
                          const std::string &i) {
-//  return "{}";
-  // Only uncomment this once you have implemented the functions used!
-   auto cObj = wObj.getCategory(c);
-   Item iObj = cObj.getItem(i);
-   return iObj.str();
+  try {
+      auto cObj = wObj.getCategory(c);
+      Item iObj = cObj.getItem(i);
+      return iObj.str();
+  } catch (const std::out_of_range& ex) {
+      std::cerr << "Error: invalid category argument(s)." << std::endl;
+      std::exit(EXIT_FAILURE);
+  }
 }
 
 // TODO Write a function, getJSON, that returns a std::string containing the
@@ -286,9 +295,13 @@ std::string App::getJSON(Wallet &wObj, const std::string &c,
 //  std::cout << getJSON(wObj, c, i, e);
 std::string App::getJSON(Wallet &wObj, const std::string &c,
                          const std::string &i, const std::string &e) {
-//  return "{}";
-  // Only uncomment this once you have implemented the functions used!
-   auto cObj = wObj.getCategory(c);
-   auto iObj = cObj.getItem(i);
-   return iObj.getEntry(e);
+    //TODO these need changing to accurately report issues with Item or Entry args
+    try {
+        auto cObj = wObj.getCategory(c);
+        auto iObj = cObj.getItem(i);
+        return iObj.getEntry(e);
+    } catch (const std::out_of_range& ex) {
+        std::cerr << "Error: invalid category argument(s)." << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
 }
