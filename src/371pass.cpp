@@ -52,6 +52,34 @@ int App::run(int argc, char *argv[]) {
   wObj.load(db);
 
   const Action a = parseActionArgument(args);
+
+    bool categorySelected = false;
+    bool itemSelected = false;
+    bool entrySelected = false;
+
+    std::string activeCategory;
+    std::string activeItem;
+    std::string activeEntry;
+
+    if (args.count("category")) {
+        categorySelected = true;
+        activeCategory = args["category"].as<std::string>();
+        if (args.count("item")) {
+            itemSelected = true;
+            activeItem = args["item"].as<std::string>();
+            if (args.count("entry")) {
+                entrySelected = true;
+                activeEntry = args["entry"].as<std::string>();
+            }
+        } else if (args.count("entry")) {
+            std::cerr << "Error: missing item arguments()." << std::endl;
+            throw std::invalid_argument("no item provided");
+        }
+    } else if (args.count("item") or args.count("entry")) {
+        std::cerr << "Error: missing category arguments()." << std::endl;
+        throw std::invalid_argument("no category provided");
+    }
+
   switch (a) {
   case Action::CREATE:
     throw std::runtime_error("create not implemented");
@@ -59,7 +87,19 @@ int App::run(int argc, char *argv[]) {
 
   case Action::READ:
     // TODO needs selectors for just reading category, item, entry, etc.
-    std::cout << wObj.str() << std::endl;
+    if (categorySelected) {
+        if (itemSelected) {
+            if (entrySelected) {
+                std::cout << App::getJSON(wObj, activeCategory, activeItem, activeEntry) << std::endl;
+            } else {
+                std::cout << App::getJSON(wObj, activeCategory, activeItem) << std::endl;
+            }
+        } else {
+            std::cout << App::getJSON(wObj, activeCategory) << std::endl;
+        }
+    } else {
+        std::cout << App::getJSON(wObj) << std::endl;
+    }
     break;
 
   case Action::UPDATE:
@@ -158,8 +198,8 @@ App::Action App::parseActionArgument(cxxopts::ParseResult &args) {
 // Example:
 //  Wallet wObj{};
 //  std::cout << getJSON(wObj);
-std::string App::getJSON(Wallet &wObj) { 
-//  return "{}";
+std::string App::getJSON(Wallet &wObj) {
+  //  return "{}";
   // Only uncomment this once you have implemented the functions used!
    return wObj.str();
 }
