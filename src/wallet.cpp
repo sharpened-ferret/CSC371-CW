@@ -131,6 +131,11 @@ void Wallet::load(std::string filename) {
         auto items = curr.value();
         for (auto item = items.begin(); item != items.end(); ++item) {
             currCategory->addItem(item.key());
+            Item * currItem = &currCategory->getItem(item.key());
+            auto entries = item.value();
+            for (auto entry = entries.begin(); entry != entries.end(); ++entry) {
+                currItem->addEntry(entry.key(), to_string(entry.value()));
+            }
         }
     }
 }
