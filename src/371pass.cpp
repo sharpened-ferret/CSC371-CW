@@ -134,7 +134,30 @@ int App::run(int argc, char *argv[]) {
     break;
 
   case Action::DELETE:
-    throw std::runtime_error("delete not implemented");
+//    throw std::runtime_error("delete not implemented");
+    if (categorySelected) {
+        try {
+            if (itemSelected) {
+                Category *currCategory = &wObj.getCategory(activeCategory);
+                if (entrySelected) {
+                    Item *currItem = &currCategory->getItem(activeItem);
+                    currItem->deleteEntry(activeEntry);
+                } else {
+                    currCategory->deleteItem(activeItem);
+                }
+            } else {
+                wObj.deleteCategory(activeCategory);
+            }
+        } catch (const std::out_of_range& ex) {
+            std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
+            std::exit(EXIT_FAILURE);
+        }
+    } else {
+        //TODO check this against spec
+        std::cerr << "Error: No delete argument(s) provided." << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+    wObj.save(db);
     break;
 
   default:
@@ -302,7 +325,7 @@ std::string App::getJSON(Wallet &wObj, const std::string &c,
         auto iObj = cObj.getItem(i);
         return iObj.getEntry(e);
     } catch (const std::out_of_range& ex) {
-        std::cerr << "Error: invalid " << ex.what() << "argument(s)." << std::endl;
+        std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
         std::exit(EXIT_FAILURE);
     }
 }
