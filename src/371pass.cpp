@@ -210,7 +210,8 @@ App::Action App::parseActionArgument(cxxopts::ParseResult &args) {
   } else if (input == "delete") {
     return Action::DELETE;
   }
-  throw std::invalid_argument("action");
+  std::cerr << "Error: invalid action argument(s)." << std::endl;
+  std::exit(EXIT_FAILURE);
 }
 
 //  Write a function, getJSON, that returns a std::string containing the
