@@ -11,8 +11,6 @@
 #include <iostream>
 #include <string>
 #include <cctype>
-#include <exception>
-#include <unordered_map>
 
 #include "371pass.h"
 #include "lib_cxxopts.hpp"
@@ -60,7 +58,6 @@ int App::run(int argc, char *argv[]) {
     std::string activeCategory;
     std::string activeItem;
     std::string activeEntry;
-    //TODO handle exceptions and close program with error msg.
     if (args.count("category")) {
         categorySelected = true;
         activeCategory = args["category"].as<std::string>();
@@ -82,7 +79,6 @@ int App::run(int argc, char *argv[]) {
 
   switch (a) {
   case Action::CREATE:
-//    throw std::runtime_error("create not implemented");
     // TODO rework order to improve efficiency
     if (categorySelected) {
         if (itemSelected) {
@@ -97,7 +93,12 @@ int App::run(int argc, char *argv[]) {
                     segList.push_back(seg);
                 }
                 //TODO this can error with some inputs, add error handling
-                currItem->addEntry(segList[0], segList[1]);
+                try {
+                    currItem->addEntry(segList[0], segList[1]);
+                } catch (const std::exception& ex) {
+                    std::cerr << "Error: invalid entry argument(s).";
+                    std::exit(EXIT_FAILURE);
+                }
             } else {
                 Category * currCategory = &wObj.newCategory(activeCategory);
                 currCategory->newItem(activeItem);

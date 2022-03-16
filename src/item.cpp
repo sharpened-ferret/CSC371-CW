@@ -135,6 +135,7 @@ void merge(Item& initial, Item& additional) {
     initial.entries.insert(additional.entries.begin(), additional.entries.end());
 }
 
+// Adds support for nlohmann json serialisation functionality of Item objects
 void to_json(nlohmann::json& j, const Item& item) {
     j = nlohmann::json(item.entries);
 }

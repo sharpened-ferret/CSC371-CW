@@ -165,6 +165,7 @@ void merge(Category& initial, Category& additional) {
     initial.items.insert(additional.items.begin(), additional.items.end());
 }
 
+// Adds support for nlohmann json serialisation functionality of Category objects
 void to_json(nlohmann::json& j, const Category& category) {
     j = nlohmann::json(category.items);
 }
