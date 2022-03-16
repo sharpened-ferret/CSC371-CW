@@ -10,6 +10,8 @@
 #include "wallet.h"
 #include <stdexcept>
 #include <fstream>
+#include <sstream>
+#include "lib_json.hpp"
 
 //  Write a Wallet constructor that takes no parameters and constructs an
 //  empty wallet.
@@ -112,10 +114,25 @@ bool Wallet::deleteCategory(std::string ident) {
 //  and populates the container for this Wallet. If the file does open throw an
 //  appropriate exception (either std::runtime_error or a derived class).
 void Wallet::load(std::string filename) {
-
+    std::string line;
+    std::stringstream buffer;
     std::ifstream database(filename);
-    
+
+    while(std::getline(database, line)) {
+        buffer << line;
+    }
     database.close();
+    std::string fileText = buffer.str();
+    nlohmann::json jsonObject = nlohmann::json::parse(fileText);
+
+    for (auto curr = jsonObject.begin(); curr != jsonObject.end(); ++curr) {
+        this->addCategory(Category(curr.key()));
+        Category currCategory = this->getCategory(curr.key());
+        auto items = curr.value();
+        for (auto item = items.begin(); item != items.end(); ++item) {
+            currCategory.addItem(item.key());
+        }
+    }
 }
 // A note on clashes:
 //  If you encounter two categories with the same key, the categories should be
