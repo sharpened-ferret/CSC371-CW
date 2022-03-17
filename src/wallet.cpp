@@ -112,34 +112,38 @@ bool Wallet::deleteCategory(std::string ident) {
 
 //  Write a function, load, that takes one parameter, a std::string,
 //  containing the filename for the database. Open the file, read the contents,
-//  and populates the container for this Wallet. If the file does open throw an
+//  and populates the container for this Wallet. If the file doesn't open throw an
 //  appropriate exception (either std::runtime_error or a derived class).
 void Wallet::load(std::string filename) {
-    //TODO clean this code + add exception throwing
-    std::string line;
-    std::stringstream buffer;
-    std::ifstream database(filename);
+    try {
+        std::string line;
+        std::stringstream buffer;
+        std::ifstream database(filename);
 
-    while(std::getline(database, line)) {
-        buffer << line;
-    }
-    database.close();
-    std::string fileText = buffer.str();
-    nlohmann::json jsonObject = nlohmann::json::parse(fileText);
+        while (std::getline(database, line)) {
+            buffer << line;
+        }
+        database.close();
 
-    for (auto curr = jsonObject.begin(); curr != jsonObject.end(); ++curr) {
-        this->addCategory(Category(curr.key()));
-        Category * currCategory = &this->getCategory(curr.key());
-        auto items = curr.value();
-        for (auto item = items.begin(); item != items.end(); ++item) {
-            currCategory->addItem(item.key());
-            Item * currItem = &currCategory->getItem(item.key());
-            auto entries = item.value();
-            for (auto entry = entries.begin(); entry != entries.end(); ++entry) {
-                std::string entryValue = entry.value();
-                currItem->addEntry(entry.key(), entryValue);
+        std::string fileText = buffer.str();
+        nlohmann::json jsonObject = nlohmann::json::parse(fileText);
+
+        for (auto curr = jsonObject.begin(); curr != jsonObject.end(); ++curr) {
+            this->addCategory(Category(curr.key()));
+            Category *currCategory = &this->getCategory(curr.key());
+            auto items = curr.value();
+            for (auto item = items.begin(); item != items.end(); ++item) {
+                currCategory->addItem(item.key());
+                Item *currItem = &currCategory->getItem(item.key());
+                auto entries = item.value();
+                for (auto entry = entries.begin(); entry != entries.end(); ++entry) {
+                    std::string entryValue = entry.value();
+                    currItem->addEntry(entry.key(), entryValue);
+                }
             }
         }
+    } catch (const std::ifstream::failure& ex) {
+        throw std::runtime_error("failed to open file");
     }
 }
 // A note on clashes:
@@ -201,7 +205,6 @@ void Wallet::load(std::string filename) {
 //  to write the database to. The function should serialise the Wallet object
 //  as JSON.
 void Wallet::save(std::string filename) {
-    // TODO think about throwing exceptions on write?
     nlohmann::json jSave(categories);
     std::ofstream out(filename);
     out << std::setw(0) << jSave << std::endl;
