@@ -47,7 +47,13 @@ int App::run(int argc, char *argv[]) {
     // Open the database and construct the Wallet
     const std::string db = args["db"].as<std::string>();
     Wallet wObj{};
-    wObj.load(db);
+    // Loads database file or exits with error
+    try {
+        wObj.load(db);
+    } catch (const std::runtime_error& ex) {
+        std::cerr << "Error: File contains invalid JSON." << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
 
 
     Action a;
