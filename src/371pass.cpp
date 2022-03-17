@@ -16,7 +16,7 @@
 #include "lib_cxxopts.hpp"
 #include "wallet.h"
 
-// TODO Complete this function. You have been provided some skeleton code which
+//  Complete this function. You have been provided some skeleton code which
 //  retrieves the database file name from cxxopts.
 //  1. Load the database file by calling load() on a Wallet object
 //  2. Parse the 'action' argument to decide what action should be taken (
@@ -49,7 +49,14 @@ int App::run(int argc, char *argv[]) {
   Wallet wObj{};
   wObj.load(db);
 
-  const Action a = parseActionArgument(args);
+
+    Action a;
+    try {
+        a = parseActionArgument(args);
+    } catch (const std::invalid_argument& ex){
+        std::cerr << "Error: invalid action argument(s)." << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
 
     bool categorySelected = false;
     bool itemSelected = false;
@@ -79,7 +86,6 @@ int App::run(int argc, char *argv[]) {
 
   switch (a) {
   case Action::CREATE:
-    // TODO rework order to improve efficiency
     if (categorySelected) {
         if (itemSelected) {
             if (entrySelected) {
@@ -129,8 +135,6 @@ int App::run(int argc, char *argv[]) {
     break;
 
   case Action::UPDATE:
-//    throw std::runtime_error("update not implemented");
-    // TODO add error handling
     if (categorySelected) {
         try {
             if (itemSelected) {
@@ -190,10 +194,10 @@ int App::run(int argc, char *argv[]) {
             std::exit(EXIT_FAILURE);
         }
     } else {
-        //TODO check this against spec
         std::cerr << "Error: No update argument(s) provided." << std::endl;
         std::exit(EXIT_FAILURE);
     }
+    wObj.save(db);
     break;
 
   case Action::DELETE:
@@ -216,7 +220,6 @@ int App::run(int argc, char *argv[]) {
             std::exit(EXIT_FAILURE);
         }
     } else {
-        //TODO check this against spec
         std::cerr << "Error: No delete argument(s) provided." << std::endl;
         std::exit(EXIT_FAILURE);
     }
@@ -297,8 +300,7 @@ App::Action App::parseActionArgument(cxxopts::ParseResult &args) {
   } else if (input == "delete") {
     return Action::DELETE;
   }
-  std::cerr << "Error: invalid action argument(s)." << std::endl;
-  std::exit(EXIT_FAILURE);
+  throw std::invalid_argument("action");
 }
 
 //  Write a function, getJSON, that returns a std::string containing the

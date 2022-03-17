@@ -12,6 +12,10 @@ Added local testing to ensure casting to lowercase worked as expected.
 When using 'create' to add a new entry to an item, an untested (in unit tests) error could occur if the value provided is not a comma-seperated pair.   
 I added handling for this so that the program will write an "Error: invalid entry argument(s)." to standard error and close the program with an error code.
 
+### No-Values and Delete or Update
+The specification didn't seem to specify behaviour for if update or delete actions are called without any categories, items, or entries given.  
+In this case, an "Error: No update argument(s) provided." or "Error: No delete argument(s) provided." message will be written to standard error, and the program will terminate in an error state. 
+
 
 ## Additional Functions
 ### merge()
