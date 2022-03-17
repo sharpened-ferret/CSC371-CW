@@ -92,11 +92,10 @@ int App::run(int argc, char *argv[]) {
                 while(std::getline(entryParams, seg, ',')) {
                     segList.push_back(seg);
                 }
-                //TODO this can error with some inputs, add error handling
                 try {
                     currItem->addEntry(segList[0], segList[1]);
                 } catch (const std::exception& ex) {
-                    std::cerr << "Error: invalid entry argument(s).";
+                    std::cerr << "Error: invalid entry argument(s)." << std::endl;
                     std::exit(EXIT_FAILURE);
                 }
             } else {
@@ -130,7 +129,71 @@ int App::run(int argc, char *argv[]) {
     break;
 
   case Action::UPDATE:
-    throw std::runtime_error("update not implemented");
+//    throw std::runtime_error("update not implemented");
+    // TODO add error handling
+    if (categorySelected) {
+        try {
+            if (itemSelected) {
+                Category *currCategory = &wObj.getCategory(activeCategory);
+                try {
+                    if (entrySelected) {
+                        Item *currItem = &currCategory->getItem(activeItem);
+                        std::stringstream entryParams(activeEntry);
+                        std::string seg;
+                        std::vector<std::string> segList;
+                        while (std::getline(entryParams, seg, ',')) {
+                            segList.push_back(seg);
+                        }
+                        try {
+                            currItem->deleteEntry(segList[0]);
+                            currItem->addEntry(segList[0], segList[1]);
+                        } catch (const std::exception &ex) {
+                            std::cerr << "Error: invalid entry argument(s)." << std::endl;
+                            std::exit(EXIT_FAILURE);
+                        }
+                    } else {
+                        // Splits old and new item idents from input args
+                        std::stringstream itemParams(activeItem);
+                        std::string seg;
+                        std::vector<std::string> segList;
+                        while (std::getline(itemParams, seg, ':')) {
+                            segList.push_back(seg);
+                        }
+                        // Creates a pointer to the item, deletes it from the category, changes the item ident,
+                        // then adds it back to the category
+                        Item *currItem = &currCategory->getItem(segList[0]);
+                        currCategory->deleteItem(segList[0]);
+                        currItem->setIdent(segList[1]);
+                        currCategory->addItem(*currItem);
+                    }
+                } catch (const std::out_of_range &ex) {
+                    std::cerr << "Error: invalid item argument(s)." << std::endl;
+                    std::exit(EXIT_FAILURE);
+                }
+            } else {
+                // Splits old and new category idents from input args
+                std::stringstream categoryParams(activeItem);
+                std::string seg;
+                std::vector<std::string> segList;
+                while (std::getline(categoryParams, seg, ':')) {
+                    segList.push_back(seg);
+                }
+                // Creates a pointer to the category, deletes it from the wallet, changes the category ident,
+                // then adds it back to the wallet
+                Category *currCategory = &wObj.getCategory(segList[0]);
+                wObj.deleteCategory(segList[0]);
+                currCategory->setIdent(segList[1]);
+                wObj.addCategory(*currCategory);
+            }
+        } catch (const std::out_of_range& ex) {
+            std::cerr << "Error: invalid category argument(s)." << std::endl;
+            std::exit(EXIT_FAILURE);
+        }
+    } else {
+        //TODO check this against spec
+        std::cerr << "Error: No update argument(s) provided." << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
     break;
 
   case Action::DELETE:
