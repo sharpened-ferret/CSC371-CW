@@ -288,19 +288,19 @@ cxxopts::Options App::cxxoptsSetup() {
 //  auto args = options.parse(argc, argv);
 //  App::Action action = parseActionArgument(args);
 App::Action App::parseActionArgument(cxxopts::ParseResult &args) {
-  std::string input = args["action"].as<std::string>();
-  // Casts string to lowercase and compares the value
-  std::transform(input.begin(), input.end(), input.begin(), ::tolower);
-  if (input == "create") {
-    return Action::CREATE;
-  } else if (input == "read") {
-    return Action::READ;
-  } else if (input == "update") {
-    return Action::UPDATE;
-  } else if (input == "delete") {
-    return Action::DELETE;
-  }
-  throw std::invalid_argument("action");
+    std::string input = args["action"].as<std::string>();
+    // Casts string to lowercase and compares the value
+    std::transform(input.begin(), input.end(), input.begin(), ::tolower);
+    if (input == "create") {
+        return Action::CREATE;
+    } else if (input == "read") {
+        return Action::READ;
+    } else if (input == "update") {
+        return Action::UPDATE;
+    } else if (input == "delete") {
+        return Action::DELETE;
+    }
+    throw std::invalid_argument("action");
 }
 
 //  Write a function, getJSON, that returns a std::string containing the
@@ -315,9 +315,7 @@ App::Action App::parseActionArgument(cxxopts::ParseResult &args) {
 //  Wallet wObj{};
 //  std::cout << getJSON(wObj);
 std::string App::getJSON(Wallet &wObj) {
-  //  return "{}";
-  // Only uncomment this once you have implemented the functions used!
-   return wObj.str();
+    return wObj.str();
 }
 
 //  Write a function, getJSON, that returns a std::string containing the
@@ -335,13 +333,13 @@ std::string App::getJSON(Wallet &wObj) {
 std::string App::getJSON(Wallet &wObj, const std::string &c) {
 //  return "{}";
   // Only uncomment this once you have implemented the functions used!
-  try {
-      auto cObj = wObj.getCategory(c);
-      return cObj.str();
-  } catch (const std::out_of_range& ex) {
-      std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
-      std::exit(EXIT_FAILURE);
-  }
+    try {
+        auto cObj = wObj.getCategory(c);
+        return cObj.str();
+    } catch (const std::out_of_range& ex) {
+        std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
 }
 
 //  Write a function, getJSON, that returns a std::string containing the
@@ -359,14 +357,14 @@ std::string App::getJSON(Wallet &wObj, const std::string &c) {
 //  std::cout << getJSON(wObj, c, i);
 std::string App::getJSON(Wallet &wObj, const std::string &c,
                          const std::string &i) {
-  try {
-      auto cObj = wObj.getCategory(c);
-      Item iObj = cObj.getItem(i);
-      return iObj.str();
-  } catch (const std::out_of_range& ex) {
-      std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
-      std::exit(EXIT_FAILURE);
-  }
+    try {
+        auto cObj = wObj.getCategory(c);
+        Item iObj = cObj.getItem(i);
+        return iObj.str();
+    } catch (const std::out_of_range& ex) {
+        std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
 }
 
 //  Write a function, getJSON, that returns a std::string containing the
