@@ -201,7 +201,6 @@ int App::run(int argc, char *argv[]) {
             break;
 
         case Action::DELETE:
-//    throw std::runtime_error("delete not implemented");
             if (categorySelected) {
                 try {
                     if (itemSelected) {
@@ -331,8 +330,6 @@ std::string App::getJSON(Wallet &wObj) {
 //  std::string c = "category argument value";
 //  std::cout << getJSON(wObj, c);
 std::string App::getJSON(Wallet &wObj, const std::string &c) {
-//  return "{}";
-    // Only uncomment this once you have implemented the functions used!
     try {
         auto cObj = wObj.getCategory(c);
         return cObj.str();
