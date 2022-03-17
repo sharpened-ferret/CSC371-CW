@@ -43,7 +43,7 @@ bool Wallet::empty() {
 //  with the same identifier already exists, then the existing object should be
 //  returned. Throw a std::runtime_error if the Category object cannot be
 //  inserted into the container.
-Category& Wallet::newCategory(std::string identifier) {
+Category &Wallet::newCategory(std::string identifier) {
     if (this->categories.count(identifier) == 0) {
         const auto status = this->categories.insert({identifier, Category(identifier)});
         if (status.second) {
@@ -83,7 +83,7 @@ bool Wallet::addCategory(Category category) {
 //  Write a function, getCategory, that takes one parameter, a Category
 //  identifier and returns the Category. If no Category exists, throw an
 //  appropriate exception.
-Category& Wallet::getCategory(std::string ident) {
+Category &Wallet::getCategory(std::string ident) {
     if (this->categories.count(ident) == 0) {
         throw std::out_of_range("category");
     } else {
@@ -142,7 +142,7 @@ void Wallet::load(std::string filename) {
                 }
             }
         }
-    } catch (const std::ifstream::failure& ex) {
+    } catch (const std::ifstream::failure &ex) {
         throw std::runtime_error("failed to open file");
     }
 }
@@ -217,7 +217,7 @@ void Wallet::save(std::string filename) {
 
 //  Write an == operator overload for the Wallet class, such that two
 //  Wallet objects are equal only if they have the exact same data.
-bool operator==(Wallet& lhs, Wallet& rhs) {
+bool operator==(Wallet &lhs, Wallet &rhs) {
     if (lhs.categories == rhs.categories) {
         return true;
     } else {

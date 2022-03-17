@@ -35,25 +35,25 @@
 // Example:
 //  int main(int argc, char *argv[]) { return App::run(argc, argv); }
 int App::run(int argc, char *argv[]) {
-  auto options = App::cxxoptsSetup();
-  auto args = options.parse(argc, argv);
+    auto options = App::cxxoptsSetup();
+    auto args = options.parse(argc, argv);
 
-  // Print the help usage if requested
-  if (args.count("help")) {
-    std::cout << options.help() << '\n';
-    return 0;
-  }
+    // Print the help usage if requested
+    if (args.count("help")) {
+        std::cout << options.help() << '\n';
+        return 0;
+    }
 
-  // Open the database and construct the Wallet
-  const std::string db = args["db"].as<std::string>();
-  Wallet wObj{};
-  wObj.load(db);
+    // Open the database and construct the Wallet
+    const std::string db = args["db"].as<std::string>();
+    Wallet wObj{};
+    wObj.load(db);
 
 
     Action a;
     try {
         a = parseActionArgument(args);
-    } catch (const std::invalid_argument& ex){
+    } catch (const std::invalid_argument &ex) {
         std::cerr << "Error: invalid action argument(s)." << std::endl;
         std::exit(EXIT_FAILURE);
     }
@@ -84,153 +84,153 @@ int App::run(int argc, char *argv[]) {
         std::exit(EXIT_FAILURE);
     }
 
-  switch (a) {
-  case Action::CREATE:
-    if (categorySelected) {
-        if (itemSelected) {
-            if (entrySelected) {
-                Category * currCategory = &wObj.newCategory(activeCategory);
-                Item * currItem  = &currCategory->newItem(activeItem);
-                std::stringstream entryParams(activeEntry);
-                std::string seg;
-                std::vector<std::string> segList;
-
-                while(std::getline(entryParams, seg, ',')) {
-                    segList.push_back(seg);
-                }
-                try {
-                    currItem->addEntry(segList[0], segList[1]);
-                } catch (const std::exception& ex) {
-                    std::cerr << "Error: invalid entry argument(s)." << std::endl;
-                    std::exit(EXIT_FAILURE);
-                }
-            } else {
-                Category * currCategory = &wObj.newCategory(activeCategory);
-                currCategory->newItem(activeItem);
-            }
-        } else {
-            wObj.newCategory(activeCategory);
-        }
-    } else {
-        std::cerr << "Error: missing category, item or entry argument(s)." << std::endl;
-        std::exit(EXIT_FAILURE);
-    }
-    wObj.save(db);
-    break;
-
-  case Action::READ:
-    if (categorySelected) {
-        if (itemSelected) {
-            if (entrySelected) {
-                std::cout << App::getJSON(wObj, activeCategory, activeItem, activeEntry) << std::endl;
-            } else {
-                std::cout << App::getJSON(wObj, activeCategory, activeItem) << std::endl;
-            }
-        } else {
-            std::cout << App::getJSON(wObj, activeCategory) << std::endl;
-        }
-    } else {
-        std::cout << App::getJSON(wObj) << std::endl;
-    }
-    break;
-
-  case Action::UPDATE:
-    if (categorySelected) {
-        try {
-            if (itemSelected) {
-                Category *currCategory = &wObj.getCategory(activeCategory);
-                try {
+    switch (a) {
+        case Action::CREATE:
+            if (categorySelected) {
+                if (itemSelected) {
                     if (entrySelected) {
-                        Item *currItem = &currCategory->getItem(activeItem);
+                        Category *currCategory = &wObj.newCategory(activeCategory);
+                        Item *currItem = &currCategory->newItem(activeItem);
                         std::stringstream entryParams(activeEntry);
                         std::string seg;
                         std::vector<std::string> segList;
+
                         while (std::getline(entryParams, seg, ',')) {
                             segList.push_back(seg);
                         }
                         try {
-                            currItem->deleteEntry(segList[0]);
                             currItem->addEntry(segList[0], segList[1]);
                         } catch (const std::exception &ex) {
                             std::cerr << "Error: invalid entry argument(s)." << std::endl;
                             std::exit(EXIT_FAILURE);
                         }
                     } else {
-                        // Splits old and new item idents from input args
-                        std::stringstream itemParams(activeItem);
+                        Category *currCategory = &wObj.newCategory(activeCategory);
+                        currCategory->newItem(activeItem);
+                    }
+                } else {
+                    wObj.newCategory(activeCategory);
+                }
+            } else {
+                std::cerr << "Error: missing category, item or entry argument(s)." << std::endl;
+                std::exit(EXIT_FAILURE);
+            }
+            wObj.save(db);
+            break;
+
+        case Action::READ:
+            if (categorySelected) {
+                if (itemSelected) {
+                    if (entrySelected) {
+                        std::cout << App::getJSON(wObj, activeCategory, activeItem, activeEntry) << std::endl;
+                    } else {
+                        std::cout << App::getJSON(wObj, activeCategory, activeItem) << std::endl;
+                    }
+                } else {
+                    std::cout << App::getJSON(wObj, activeCategory) << std::endl;
+                }
+            } else {
+                std::cout << App::getJSON(wObj) << std::endl;
+            }
+            break;
+
+        case Action::UPDATE:
+            if (categorySelected) {
+                try {
+                    if (itemSelected) {
+                        Category *currCategory = &wObj.getCategory(activeCategory);
+                        try {
+                            if (entrySelected) {
+                                Item *currItem = &currCategory->getItem(activeItem);
+                                std::stringstream entryParams(activeEntry);
+                                std::string seg;
+                                std::vector<std::string> segList;
+                                while (std::getline(entryParams, seg, ',')) {
+                                    segList.push_back(seg);
+                                }
+                                try {
+                                    currItem->deleteEntry(segList[0]);
+                                    currItem->addEntry(segList[0], segList[1]);
+                                } catch (const std::exception &ex) {
+                                    std::cerr << "Error: invalid entry argument(s)." << std::endl;
+                                    std::exit(EXIT_FAILURE);
+                                }
+                            } else {
+                                // Splits old and new item idents from input args
+                                std::stringstream itemParams(activeItem);
+                                std::string seg;
+                                std::vector<std::string> segList;
+                                while (std::getline(itemParams, seg, ':')) {
+                                    segList.push_back(seg);
+                                }
+                                // Creates a pointer to the item, deletes it from the category, changes the item ident,
+                                // then adds it back to the category
+                                Item *currItem = &currCategory->getItem(segList[0]);
+                                currCategory->deleteItem(segList[0]);
+                                currItem->setIdent(segList[1]);
+                                currCategory->addItem(*currItem);
+                            }
+                        } catch (const std::out_of_range &ex) {
+                            std::cerr << "Error: invalid item argument(s)." << std::endl;
+                            std::exit(EXIT_FAILURE);
+                        }
+                    } else {
+                        // Splits old and new category idents from input args
+                        std::stringstream categoryParams(activeItem);
                         std::string seg;
                         std::vector<std::string> segList;
-                        while (std::getline(itemParams, seg, ':')) {
+                        while (std::getline(categoryParams, seg, ':')) {
                             segList.push_back(seg);
                         }
-                        // Creates a pointer to the item, deletes it from the category, changes the item ident,
-                        // then adds it back to the category
-                        Item *currItem = &currCategory->getItem(segList[0]);
-                        currCategory->deleteItem(segList[0]);
-                        currItem->setIdent(segList[1]);
-                        currCategory->addItem(*currItem);
+                        // Creates a pointer to the category, deletes it from the wallet, changes the category ident,
+                        // then adds it back to the wallet
+                        Category *currCategory = &wObj.getCategory(segList[0]);
+                        wObj.deleteCategory(segList[0]);
+                        currCategory->setIdent(segList[1]);
+                        wObj.addCategory(*currCategory);
                     }
                 } catch (const std::out_of_range &ex) {
-                    std::cerr << "Error: invalid item argument(s)." << std::endl;
+                    std::cerr << "Error: invalid category argument(s)." << std::endl;
                     std::exit(EXIT_FAILURE);
                 }
             } else {
-                // Splits old and new category idents from input args
-                std::stringstream categoryParams(activeItem);
-                std::string seg;
-                std::vector<std::string> segList;
-                while (std::getline(categoryParams, seg, ':')) {
-                    segList.push_back(seg);
-                }
-                // Creates a pointer to the category, deletes it from the wallet, changes the category ident,
-                // then adds it back to the wallet
-                Category *currCategory = &wObj.getCategory(segList[0]);
-                wObj.deleteCategory(segList[0]);
-                currCategory->setIdent(segList[1]);
-                wObj.addCategory(*currCategory);
+                std::cerr << "Error: No update argument(s) provided." << std::endl;
+                std::exit(EXIT_FAILURE);
             }
-        } catch (const std::out_of_range& ex) {
-            std::cerr << "Error: invalid category argument(s)." << std::endl;
-            std::exit(EXIT_FAILURE);
-        }
-    } else {
-        std::cerr << "Error: No update argument(s) provided." << std::endl;
-        std::exit(EXIT_FAILURE);
-    }
-    wObj.save(db);
-    break;
+            wObj.save(db);
+            break;
 
-  case Action::DELETE:
+        case Action::DELETE:
 //    throw std::runtime_error("delete not implemented");
-    if (categorySelected) {
-        try {
-            if (itemSelected) {
-                Category *currCategory = &wObj.getCategory(activeCategory);
-                if (entrySelected) {
-                    Item *currItem = &currCategory->getItem(activeItem);
-                    currItem->deleteEntry(activeEntry);
-                } else {
-                    currCategory->deleteItem(activeItem);
+            if (categorySelected) {
+                try {
+                    if (itemSelected) {
+                        Category *currCategory = &wObj.getCategory(activeCategory);
+                        if (entrySelected) {
+                            Item *currItem = &currCategory->getItem(activeItem);
+                            currItem->deleteEntry(activeEntry);
+                        } else {
+                            currCategory->deleteItem(activeItem);
+                        }
+                    } else {
+                        wObj.deleteCategory(activeCategory);
+                    }
+                } catch (const std::out_of_range &ex) {
+                    std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
+                    std::exit(EXIT_FAILURE);
                 }
             } else {
-                wObj.deleteCategory(activeCategory);
+                std::cerr << "Error: No delete argument(s) provided." << std::endl;
+                std::exit(EXIT_FAILURE);
             }
-        } catch (const std::out_of_range& ex) {
-            std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
-            std::exit(EXIT_FAILURE);
-        }
-    } else {
-        std::cerr << "Error: No delete argument(s) provided." << std::endl;
-        std::exit(EXIT_FAILURE);
+            wObj.save(db);
+            break;
+
+        default:
+            throw std::runtime_error("Unknown action not implemented");
     }
-    wObj.save(db);
-    break;
 
-  default:
-    throw std::runtime_error("Unknown action not implemented");
-  }
-
-  return 0;
+    return 0;
 }
 
 // Create a cxxopts instance. You do not need to modify this function.
@@ -239,40 +239,40 @@ int App::run(int argc, char *argv[]) {
 //  auto options = App::cxxoptsSetup();
 //  auto args = options.parse(argc, argv);
 cxxopts::Options App::cxxoptsSetup() {
-  cxxopts::Options cxxopts("371pass", "Student ID: " + STUDENT_NUMBER + "\n");
+    cxxopts::Options cxxopts("371pass", "Student ID: " + STUDENT_NUMBER + "\n");
 
-  cxxopts.add_options()(
-      "db", "Filename of the 371pass database",
-      cxxopts::value<std::string>()->default_value("database.json"))(
+    cxxopts.add_options()(
+            "db", "Filename of the 371pass database",
+            cxxopts::value<std::string>()->default_value("database.json"))(
 
-      "action", "Action to take, can be: 'create', 'read', 'update', 'delete'.",
-      cxxopts::value<std::string>())(
+            "action", "Action to take, can be: 'create', 'read', 'update', 'delete'.",
+            cxxopts::value<std::string>())(
 
-      "category",
-      "Apply action to a category (e.g., if you want to add a category, set the"
-      " action argument to 'add' and the category argument to your chosen"
-      " category identifier).",
-      cxxopts::value<std::string>())(
+            "category",
+            "Apply action to a category (e.g., if you want to add a category, set the"
+            " action argument to 'add' and the category argument to your chosen"
+            " category identifier).",
+            cxxopts::value<std::string>())(
 
-      "item",
-      "Apply action to an item (e.g., if you want to add an item, set the "
-      "action argument to 'add', the category argument to your chosen category "
-      "identifier and the item argument to the item identifier).",
-      cxxopts::value<std::string>())(
+            "item",
+            "Apply action to an item (e.g., if you want to add an item, set the "
+            "action argument to 'add', the category argument to your chosen category "
+            "identifier and the item argument to the item identifier).",
+            cxxopts::value<std::string>())(
 
-      "entry",
-      "Apply action to an entry (e.g., if you want to add an entry, set the "
-      "action argument to 'add', the category argument to your chosen category "
-      "identifier, the item argument to your chosen item identifier, and the "
-      "entry argument to the string 'key,value'). If there is no comma, an "
-      "empty entry is inserted. If you are simply retrieving an entry, set the "
-      "entry argument to the 'key'. If you are updating an entry key, use a : "
-      "e.g., oldkey:newkey,newvalue.",
-      cxxopts::value<std::string>())(
+            "entry",
+            "Apply action to an entry (e.g., if you want to add an entry, set the "
+            "action argument to 'add', the category argument to your chosen category "
+            "identifier, the item argument to your chosen item identifier, and the "
+            "entry argument to the string 'key,value'). If there is no comma, an "
+            "empty entry is inserted. If you are simply retrieving an entry, set the "
+            "entry argument to the 'key'. If you are updating an entry key, use a : "
+            "e.g., oldkey:newkey,newvalue.",
+            cxxopts::value<std::string>())(
 
-      "h,help", "Print usage.");
+            "h,help", "Print usage.");
 
-  return cxxopts;
+    return cxxopts;
 }
 
 // Rewrite this function so that it works. This function should
@@ -332,11 +332,11 @@ std::string App::getJSON(Wallet &wObj) {
 //  std::cout << getJSON(wObj, c);
 std::string App::getJSON(Wallet &wObj, const std::string &c) {
 //  return "{}";
-  // Only uncomment this once you have implemented the functions used!
+    // Only uncomment this once you have implemented the functions used!
     try {
         auto cObj = wObj.getCategory(c);
         return cObj.str();
-    } catch (const std::out_of_range& ex) {
+    } catch (const std::out_of_range &ex) {
         std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
         std::exit(EXIT_FAILURE);
     }
@@ -361,7 +361,7 @@ std::string App::getJSON(Wallet &wObj, const std::string &c,
         auto cObj = wObj.getCategory(c);
         Item iObj = cObj.getItem(i);
         return iObj.str();
-    } catch (const std::out_of_range& ex) {
+    } catch (const std::out_of_range &ex) {
         std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
         std::exit(EXIT_FAILURE);
     }
@@ -387,7 +387,7 @@ std::string App::getJSON(Wallet &wObj, const std::string &c,
         auto cObj = wObj.getCategory(c);
         auto iObj = cObj.getItem(i);
         return iObj.getEntry(e);
-    } catch (const std::out_of_range& ex) {
+    } catch (const std::out_of_range &ex) {
         std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
         std::exit(EXIT_FAILURE);
     }

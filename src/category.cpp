@@ -14,7 +14,7 @@
 
 // Write a constructor that takes one parameter, a string identifier
 //  and initialises the object and member data.
-Category::Category(std::string identifier): identifier(std::move(identifier)) {}
+Category::Category(std::string identifier) : identifier(std::move(identifier)) {}
 // Example:
 //  Category c{"categoryIdent"};
 
@@ -59,7 +59,7 @@ void Category::setIdent(std::string ident) {
 //  same identifier already exists, then the existing object should be returned.
 //  Throw a std::runtime_error if the Item object cannot be inserted into the
 //  container for whatever reason.
-Item& Category::newItem(std::string identifier) {
+Item &Category::newItem(std::string identifier) {
     if (this->items.count(identifier) == 0) {
         const auto status = this->items.insert({identifier, Item(identifier)});
         if (status.second) {
@@ -98,7 +98,7 @@ bool Category::addItem(Item item) {
 // Write a function, getItem, that takes one parameter, an Item
 //  identifier (a string) and returns the Item as a reference. If no Item
 //  exists, throw an appropriate exception.
-Item& Category::getItem(std::string identifier) {
+Item &Category::getItem(std::string identifier) {
     if (this->items.count(identifier) == 0) {
         throw std::out_of_range("item");
     } else {
@@ -131,7 +131,7 @@ bool Category::deleteItem(std::string identifier) {
 //  Write an == operator overload for the Category class, such that two
 //  Category objects are equal only if they have the same identifier and same
 //  Items.
-bool operator==(const Category& lhs, const Category& rhs) {
+bool operator==(const Category &lhs, const Category &rhs) {
     if (lhs.identifier == rhs.identifier) {
         if (lhs.items == rhs.items) {
             return true;
@@ -161,11 +161,11 @@ std::string Category::str() {
 //  std::string s = cObj.str();
 
 // This function adds the entries of the additional category into the initial category.
-void merge(Category& initial, Category& additional) {
+void merge(Category &initial, Category &additional) {
     initial.items.insert(additional.items.begin(), additional.items.end());
 }
 
 // Adds support for nlohmann json serialisation functionality of Category objects
-void to_json(nlohmann::json& j, const Category& category) {
+void to_json(nlohmann::json &j, const Category &category) {
     j = nlohmann::json(category.items);
 }

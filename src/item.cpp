@@ -16,7 +16,7 @@
 
 //  Write a constructor that takes one parameter, a string identifier
 //  and initialises the object and member data.
-Item::Item(std::string identifier): identifier(std::move(identifier)) {}
+Item::Item(std::string identifier) : identifier(std::move(identifier)) {}
 //
 // Example:
 //  Item iObj{"identIdent"};
@@ -101,7 +101,7 @@ bool Item::deleteEntry(std::string key) {
 // Write an == operator overload for the Item class, such that two
 //  Item objects are equal only if they have the same identifier and same
 //  entries.
-bool operator==(const Item& lhs, const Item& rhs) {
+bool operator==(const Item &lhs, const Item &rhs) {
     if (lhs.identifier == rhs.identifier) {
         if (lhs.entries == rhs.entries) {
             return true;
@@ -131,11 +131,11 @@ std::string Item::str() {
 //  std::string s = iObj.str();
 
 // This function adds the entries of the additional item into the initial item.
-void merge(Item& initial, Item& additional) {
+void merge(Item &initial, Item &additional) {
     initial.entries.insert(additional.entries.begin(), additional.entries.end());
 }
 
 // Adds support for nlohmann json serialisation functionality of Item objects
-void to_json(nlohmann::json& j, const Item& item) {
+void to_json(nlohmann::json &j, const Item &item) {
     j = nlohmann::json(item.entries);
 }
