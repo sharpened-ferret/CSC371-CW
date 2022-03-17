@@ -27,11 +27,11 @@ public:
     bool empty();
     std::string getIdent();
     void setIdent(std::string ident);
-    Item& newItem(std::string identifier);
+    Item& newItem(const std::string& ident);
     bool addItem(Item item);
-    Item& getItem(std::string identifier);
-    bool deleteItem(std::string identifier);
-    std::string str();
+    Item& getItem(const std::string& ident);
+    bool deleteItem(const std::string& ident);
+    std::string str() const;
 
     friend bool operator==(const Category& lhs, const Category& rhs);
     friend void merge(Category& initial, Category& additional);

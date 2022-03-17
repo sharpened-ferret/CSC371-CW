@@ -54,21 +54,21 @@ void Category::setIdent(std::string ident) {
 //  Category cObj{"categoryIdent"};
 //  cObj.setIdent("categoryIdent2");
 
-// Write a function, newItem, that takes one parameter, an Item identifier,
+// Write a function, newItem, that takes one parameter, an Item ident,
 //  (a string) and returns the Item object as a reference. If an object with the
-//  same identifier already exists, then the existing object should be returned.
+//  same ident already exists, then the existing object should be returned.
 //  Throw a std::runtime_error if the Item object cannot be inserted into the
 //  container for whatever reason.
-Item &Category::newItem(std::string identifier) {
-    if (this->items.count(identifier) == 0) {
-        const auto status = this->items.insert({identifier, Item(identifier)});
+Item &Category::newItem(const std::string& ident) {
+    if (this->items.count(ident) == 0) {
+        const auto status = this->items.insert({ident, Item(ident)});
         if (status.second) {
-            return this->items.at(identifier);
+            return this->items.at(ident);
         } else {
             throw std::runtime_error("new item failed");
         }
     } else {
-        return this->items.at(identifier);
+        return this->items.at(ident);
     }
 }
 // Example:
@@ -96,13 +96,13 @@ bool Category::addItem(Item item) {
 //  cObj.addItem(iObj);
 
 // Write a function, getItem, that takes one parameter, an Item
-//  identifier (a string) and returns the Item as a reference. If no Item
+//  ident (a string) and returns the Item as a reference. If no Item
 //  exists, throw an appropriate exception.
-Item &Category::getItem(std::string identifier) {
-    if (this->items.count(identifier) == 0) {
+Item &Category::getItem(const std::string& ident) {
+    if (this->items.count(ident) == 0) {
         throw std::out_of_range("item");
     } else {
-        return items.at(identifier);
+        return items.at(ident);
     }
 }
 // Hint:
@@ -114,13 +114,13 @@ Item &Category::getItem(std::string identifier) {
 //  auto iObj = cObj.getItem("itemIdent");
 
 // Write a function, deleteItem, that takes one parameter, an Item
-//  identifier (a string), deletes it from the container, and returns true if
+//  ident (a string), deletes it from the container, and returns true if
 //  the Item was deleted. If no Item exists, throw an appropriate exception.
-bool Category::deleteItem(std::string identifier) {
-    if (this->items.count(identifier) == 0) {
+bool Category::deleteItem(const std::string& ident) {
+    if (this->items.count(ident) == 0) {
         throw std::out_of_range("item");
     } else {
-        return this->items.erase(identifier);
+        return this->items.erase(ident);
     }
 }
 // Example:
@@ -149,7 +149,7 @@ bool operator==(const Category &lhs, const Category &rhs) {
 
 //  Write a function, str, that takes no parameters and returns a
 //  std::string of the JSON representation of the data in the Category.
-std::string Category::str() {
+std::string Category::str() const {
     nlohmann::json jString;
     to_json(jString, *this);
     return to_string(jString);

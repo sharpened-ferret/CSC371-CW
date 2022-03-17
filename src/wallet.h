@@ -25,12 +25,12 @@ public:
     Wallet();
     unsigned int size();
     bool empty();
-    Category& newCategory(std::string identifier);
+    Category& newCategory(const std::string& identifier);
     bool addCategory(Category category);
-    Category& getCategory(std::string ident);
-    bool deleteCategory(std::string ident);
-    void load(std::string filename);
-    void save(std::string filename);
+    Category& getCategory(const std::string& ident);
+    bool deleteCategory(const std::string& ident);
+    void load(const std::string& filename);
+    void save(const std::string& filename);
     std::string str();
 
     friend bool operator==(Wallet& lhs, Wallet& rhs);

@@ -30,10 +30,10 @@ public:
     bool empty();
     void setIdent(std::string ident);
     std::string getIdent();
-    bool addEntry(std::string key, std::string value);
-    std::string getEntry(std::string key);
-    bool deleteEntry(std::string key);
-    std::string str();
+    bool addEntry(const std::string& key, const std::string& value);
+    std::string getEntry(const std::string& key);
+    bool deleteEntry(const std::string& key);
+    std::string str() const;
 
     friend bool operator==(const Item& rhs, const Item& lhs);
     friend void merge(Item& first, Item& second);

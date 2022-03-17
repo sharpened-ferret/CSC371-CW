@@ -43,7 +43,7 @@ bool Wallet::empty() {
 //  with the same identifier already exists, then the existing object should be
 //  returned. Throw a std::runtime_error if the Category object cannot be
 //  inserted into the container.
-Category &Wallet::newCategory(std::string identifier) {
+Category &Wallet::newCategory(const std::string& identifier) {
     if (this->categories.count(identifier) == 0) {
         const auto status = this->categories.insert({identifier, Category(identifier)});
         if (status.second) {
@@ -83,7 +83,7 @@ bool Wallet::addCategory(Category category) {
 //  Write a function, getCategory, that takes one parameter, a Category
 //  identifier and returns the Category. If no Category exists, throw an
 //  appropriate exception.
-Category &Wallet::getCategory(std::string ident) {
+Category &Wallet::getCategory(const std::string& ident) {
     if (this->categories.count(ident) == 0) {
         throw std::out_of_range("category");
     } else {
@@ -98,7 +98,7 @@ Category &Wallet::getCategory(std::string ident) {
 //  Write a function, deleteCategory, that takes one parameter, a Category
 //  identifier, and deletes it from the container, and returns true if the
 //  Category was deleted. If no Category exists, throw an appropriate exception.
-bool Wallet::deleteCategory(std::string ident) {
+bool Wallet::deleteCategory(const std::string& ident) {
     if (this->categories.count(ident) == 0) {
         throw std::out_of_range("category");
     } else {
@@ -114,7 +114,7 @@ bool Wallet::deleteCategory(std::string ident) {
 //  containing the filename for the database. Open the file, read the contents,
 //  and populates the container for this Wallet. If the file doesn't open throw an
 //  appropriate exception (either std::runtime_error or a derived class).
-void Wallet::load(std::string filename) {
+void Wallet::load(const std::string& filename) {
     try {
         std::string line;
         std::stringstream buffer;
@@ -204,7 +204,7 @@ void Wallet::load(std::string filename) {
 //  Write a function ,save, that takes one parameter, the path of the file
 //  to write the database to. The function should serialise the Wallet object
 //  as JSON.
-void Wallet::save(std::string filename) {
+void Wallet::save(const std::string& filename) {
     nlohmann::json jSave(categories);
     std::ofstream out(filename);
     out << std::setw(0) << jSave << std::endl;

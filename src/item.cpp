@@ -60,7 +60,7 @@ std::string Item::getIdent() {
 // Write a function, addEntry, that takes two parameters, an entry
 //  key and value and returns true if the entry was inserted into the
 //  container or false if the entry already existed and was replaced.
-bool Item::addEntry(std::string key, std::string value) {
+bool Item::addEntry(const std::string& key, const std::string& value) {
     const auto status = this->entries.insert({key, value});
     return status.second;
 }
@@ -71,7 +71,7 @@ bool Item::addEntry(std::string key, std::string value) {
 // Write a function, getEntry, that takes one parameter, an entry
 //  key and returns it's value. If no entry exists, throw an appropriate
 //  exception.
-std::string Item::getEntry(std::string key) {
+std::string Item::getEntry(const std::string& key) {
     if (this->entries.count(key) == 0) {
         throw std::out_of_range("entry");
     } else {
@@ -86,7 +86,7 @@ std::string Item::getEntry(std::string key) {
 // Write a function, deleteEntry, that takes one parameter, an entry
 //  key, deletes it from the container, and returns true if the Item was
 //  deleted. If no entry exists, throw an appropriate exception.
-bool Item::deleteEntry(std::string key) {
+bool Item::deleteEntry(const std::string& key) {
     if (this->entries.count(key) == 0) {
         throw std::out_of_range("entry");
     } else {
@@ -121,7 +121,7 @@ bool operator==(const Item &lhs, const Item &rhs) {
 //  std::string of the JSON representation of the data in the Item.
 //
 // See the coursework specification for how this JSON should look.
-std::string Item::str() {
+std::string Item::str() const {
     nlohmann::json jString;
     to_json(jString, *this);
     return to_string(jString);
