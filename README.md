@@ -7,7 +7,7 @@ You should use this README to document things you did that you think are clever 
 Unit test 1 did not check case sensitivity for arguments.   
 Added local testing to ensure casting to lowercase worked as expected. 
 
-###371 Pass
+### 371 Pass
 #### Invalid entry arguments for 'create'
 When using 'create' to add a new entry to an item, an untested (in unit tests) error could occur if the value provided is not a comma-seperated pair.   
 I added handling for this so that the program will write an "Error: invalid entry argument(s)." to standard error and close the program with an error code.
