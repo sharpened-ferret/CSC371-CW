@@ -20,8 +20,7 @@
 
 namespace App {
 
-// TODO: Enter your student number here!
-const std::string STUDENT_NUMBER = "987654";
+const std::string STUDENT_NUMBER = "851182";
 
 // Enums (short for enumerations) are similar to their Java implementation.
 // It is a user-defined type, used to assign names to internal constants
