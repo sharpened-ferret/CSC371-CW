@@ -39,7 +39,7 @@ int App::run(int argc, char *argv[]) {
     auto args = options.parse(argc, argv);
 
     // Print the help usage if requested
-    if (args.count("help")) {
+    if (args.count("help") or argc == 1) {
         std::cout << options.help() << '\n';
         return 0;
     }
@@ -285,8 +285,6 @@ cxxopts::Options App::cxxoptsSetup() {
 //  convert this to a value from the ACTION enum. If an invalid value is given
 //  in a string, throw an std::invalid_argument exception.
 //
-// TODO we will get a cxxopts no value exception if the action arg is not included.
-//   may want to look into correcting this in cxx handling somewhere
 //
 // Example:
 //  auto options = App::cxxoptsSetup();

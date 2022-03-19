@@ -18,6 +18,10 @@ In this case, an "Error: No update argument(s) provided." or "Error: No delete a
 
 
 ## Additional Functions
+### Fixed Error when no Arguments are given
+There was an issue where if 371pass was called with no arguments given, it would throw a CXXopts exception from the parseActionArgument function.  
+Changed so that, if no arguments are provided, it will instead print the help message.  
+
 ### merge()
 A 'merge' function was added to Item and Category, to facilitate merging the lists for the 'addItem' and 'addCategory' functions.  
 This function takes pointers to two objects, and adds all the list entries in the second object into the list property of the first item.  
