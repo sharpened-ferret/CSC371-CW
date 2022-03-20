@@ -21,7 +21,7 @@ There was an issue where if 371pass was called with no arguments given, it would
 Changed so that, if no arguments are provided, it will instead print the help message.
 
 #### Added Behaviour when the Action specifier is provided with no value
-If the action flag was provided without any arguments, a CXXopts option_has_no_value_exception would be thrown.  
+If other arguments were provided without an action, a CXXopts option_has_no_value_exception would be thrown.  
 Instead, the program will write "Error: missing action argument(s)." to standard error, and terminate in an error state.  
 
 
