@@ -16,9 +16,14 @@ I added handling for this so that the program will write an "Error: invalid entr
 The specification didn't seem to specify behaviour for if update or delete actions are called without any categories, items, or entries given.  
 In this case, an "Error: No update argument(s) provided." or "Error: No delete argument(s) provided." message will be written to standard error, and the program will terminate in an error state.
 
-#### Fixed Error when no Arguments are given
+#### Added Behaviour when no Arguments are given
 There was an issue where if 371pass was called with no arguments given, it would throw a CXXopts exception from the parseActionArgument function.  
 Changed so that, if no arguments are provided, it will instead print the help message.
+
+#### Added Behaviour when the Action specifier is provided with no value
+If the action flag was provided without any arguments, a CXXopts option_has_no_value_exception would be thrown.  
+Instead, the program will write "Error: missing action argument(s)." to standard error, and terminate in an error state.  
+
 
 
 ## Additional Functions 

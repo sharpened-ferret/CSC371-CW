@@ -38,7 +38,7 @@ int App::run(int argc, char *argv[]) {
     auto options = App::cxxoptsSetup();
     auto args = options.parse(argc, argv);
 
-    // Print the help usage if requested
+    // Print the help usage if requested or if no arguments are provided.
     if (args.count("help") or argc == 1) {
         std::cout << options.help() << '\n';
         return 0;
@@ -57,11 +57,14 @@ int App::run(int argc, char *argv[]) {
 
 
     Action a;
+    // Handles error output if an invalid action, or no action, has been provided
     try {
         a = parseActionArgument(args);
     } catch (const std::invalid_argument &ex) {
-        std::cerr << "Error: invalid action argument(s)." << std::endl;
+        std::cerr << "Error: invalid " << ex.what() << " argument(s)." << std::endl;
         std::exit(EXIT_FAILURE);
+    } catch (const std::out_of_range &ex) {
+        std::cerr << "Error: missing " << ex.what() << " argument(s)." << std::endl;
     }
 
     bool categorySelected = false;
@@ -71,6 +74,8 @@ int App::run(int argc, char *argv[]) {
     std::string activeCategory;
     std::string activeItem;
     std::string activeEntry;
+
+    // This section pre-processes the object selection and handles missing arguments.
     if (args.count("category")) {
         categorySelected = true;
         activeCategory = args["category"].as<std::string>();
@@ -232,7 +237,8 @@ int App::run(int argc, char *argv[]) {
             break;
 
         default:
-            throw std::runtime_error("Unknown action not implemented");
+            std::cerr << "Error: invalid action argument(s)." << std::endl;
+            std::exit(EXIT_FAILURE);
     }
 
     return 0;
@@ -291,17 +297,22 @@ cxxopts::Options App::cxxoptsSetup() {
 //  auto args = options.parse(argc, argv);
 //  App::Action action = parseActionArgument(args);
 App::Action App::parseActionArgument(cxxopts::ParseResult &args) {
-    std::string input = args["action"].as<std::string>();
-    // Casts string to lowercase and compares the value
-    std::transform(input.begin(), input.end(), input.begin(), ::tolower);
-    if (input == "create") {
-        return Action::CREATE;
-    } else if (input == "read") {
-        return Action::READ;
-    } else if (input == "update") {
-        return Action::UPDATE;
-    } else if (input == "delete") {
-        return Action::DELETE;
+    try {
+        std::string input = args["action"].as<std::string>();
+        // Casts string to lowercase and compares the value
+        std::transform(input.begin(), input.end(), input.begin(), ::tolower);
+        if (input == "create") {
+            return Action::CREATE;
+        } else if (input == "read") {
+            return Action::READ;
+        } else if (input == "update") {
+            return Action::UPDATE;
+        } else if (input == "delete") {
+            return Action::DELETE;
+        }
+    } catch (const cxxopts::option_has_no_value_exception &ex) {
+        // Throws a separate exception for a missing action argument
+        throw std::out_of_range("action");
     }
     throw std::invalid_argument("action");
 }
