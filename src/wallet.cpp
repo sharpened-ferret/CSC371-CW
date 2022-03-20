@@ -208,6 +208,7 @@ void Wallet::save(const std::string& filename) {
     nlohmann::json jSave(categories);
     std::ofstream out(filename);
     out << std::setw(0) << jSave << std::endl;
+    out.close();
 }
 // Example:
 //  Wallet wObj{};
